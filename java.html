@@ -3,25 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Java for Beginners — Learn, Code, Conquer</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Java 101 — ConnecTech by YMCA Vietnam</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Sora:wght@300;400;600;700;800&family=Outfit:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0e1a;
-    --surface: #111827;
-    --surface2: #1c2333;
-    --border: #2a3550;
-    --accent: #f97316;
-    --accent2: #38bdf8;
-    --accent3: #a78bfa;
-    --green: #4ade80;
-    --red: #f87171;
-    --yellow: #fbbf24;
-    --text: #e2e8f0;
-    --muted: #64748b;
-    --font-head: 'Syne', sans-serif;
+    /* ConnecTech Daybreak Palette */
+    --bg:            #0D1B2A;
+    --surface:       #132436;
+    --surface2:      #0A1520;
+    --accent:        #F5A623;
+    --accent2:       #F7C96A;
+    --accent3:       #a78bfa;
+    --accent-glow:   rgba(245,166,35,0.12);
+    --green:         #10B981;
+    --red:           #EF4444;
+    --yellow:        #F5A623;
+    --blue:          #38bdf8;
+    --text:          #F5F0E8;
+    --muted:         rgba(245,240,232,0.50);
+    --text-faint:    rgba(245,240,232,0.25);
+    --border:        rgba(245,166,35,0.15);
+    --border-subtle: rgba(245,166,35,0.08);
+    --code-bg:       #081018;
+    --code-keyword:  #C4B5FD;
+    --code-string:   #6EE7B7;
+    --code-number:   #FDE68A;
+    --code-comment:  #4B5563;
+    --code-text:     #CBD5E1;
+    --font-head: 'Sora', sans-serif;
     --font-mono: 'Space Mono', monospace;
-    --font-body: 'DM Sans', sans-serif;
+    --font-body: 'Sora', sans-serif;
+    --font-brand: 'Outfit', sans-serif;
   }
 
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -49,6 +61,7 @@
     position: sticky;
     top: 0;
     overflow-y: auto;
+    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .logo {
@@ -91,6 +104,7 @@
   .progress-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--accent), var(--accent2));
+    box-shadow: 0 0 10px rgba(245,166,35,0.4);
     border-radius: 2px;
     transition: width 0.5s ease;
   }
@@ -163,9 +177,9 @@
   }
 
   .lesson-header {
-    padding: 40px 48px 0;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 32px;
+    padding: 40px 48px 32px;
+    border-bottom: 1px solid var(--border-subtle);
+    background: linear-gradient(180deg, rgba(245,166,35,0.04) 0%, transparent 100%);
   }
   .lesson-badge {
     display: inline-flex;
@@ -230,6 +244,7 @@
     background: var(--accent);
     border-radius: 2px;
     flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(245,166,35,0.5);
   }
 
   .prose {
@@ -256,7 +271,7 @@
   .analogy-label {
     font-size: 10px;
     font-family: var(--font-mono);
-    color: var(--accent2);
+    color: var(--accent);
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 6px;
@@ -266,7 +281,7 @@
 
   /* ===== CODE BLOCK ===== */
   .code-wrap {
-    background: #0d1117;
+    background: var(--code-bg);
     border: 1px solid var(--border);
     border-radius: 10px;
     overflow: hidden;
@@ -299,14 +314,14 @@
     font-size: 13px;
     line-height: 1.8;
   }
-  .kw { color: #ff79c6; }
-  .cls { color: #50fa7b; }
-  .fn { color: #8be9fd; }
-  .str { color: #f1fa8c; }
-  .num { color: #bd93f9; }
-  .cmt { color: #6272a4; font-style: italic; }
-  .type { color: #ffb86c; }
-  .var-name { color: #f8f8f2; }
+  .kw  { color: var(--code-keyword); }
+  .cls { color: var(--code-string); }
+  .fn  { color: #93C5FD; }
+  .str { color: var(--code-string); }
+  .num { color: var(--code-number); }
+  .cmt { color: var(--code-comment); font-style: italic; }
+  .type { color: var(--accent2); }
+  .var-name { color: var(--code-text); }
 
   /* ===== QUIZ SECTION ===== */
   .quiz-section {
@@ -359,7 +374,7 @@
     align-items: center;
     gap: 10px;
   }
-  .quiz-option:hover:not(.disabled) { border-color: var(--accent2); background: rgba(56,189,248,0.06); }
+  .quiz-option:hover:not(.disabled) { border-color: var(--accent); background: var(--accent-glow); color: var(--text); }
   .quiz-option.correct { border-color: var(--green); background: rgba(74,222,128,0.08); color: var(--green); }
   .quiz-option.wrong { border-color: var(--red); background: rgba(248,113,113,0.08); color: var(--red); }
   .quiz-option.disabled { cursor: default; }
@@ -472,7 +487,7 @@
     font-family: var(--font-mono);
     font-size: 13px;
     line-height: 2.2;
-    background: #0d1117;
+    background: var(--code-bg);
     padding: 20px;
     border-radius: 8px;
     border: 1px solid var(--border);
@@ -480,7 +495,7 @@
   }
   .fill-blank {
     display: inline-block;
-    border-bottom: 2px solid var(--accent3);
+    border-bottom: 2px solid rgba(167,139,250,0.6);
     min-width: 80px;
     padding: 0 4px;
     outline: none;
@@ -511,7 +526,7 @@
     font-family: var(--font-head);
     font-size: 16px;
     font-weight: 700;
-    color: var(--accent2);
+    color: var(--accent);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -533,9 +548,9 @@
     transition: all 0.2s;
     user-select: none;
   }
-  .sort-item:hover { border-color: var(--accent2); }
+  .sort-item:hover { border-color: rgba(245,166,35,0.4); background: var(--accent-glow); }
   .sort-item.dragging { opacity: 0.4; }
-  .sort-item.drag-over { border-color: var(--accent2); background: rgba(56,189,248,0.08); }
+  .sort-item.drag-over { border-color: var(--accent); background: var(--accent-glow); }
   .sort-item.correct-pos { border-color: var(--green); background: rgba(74,222,128,0.06); }
   .sort-item.wrong-pos { border-color: var(--red); background: rgba(248,113,113,0.06); }
   .drag-handle { color: var(--muted); cursor: grab; font-size: 16px; }
@@ -566,10 +581,10 @@
     align-items: center;
     gap: 6px;
   }
-  .btn-primary { background: var(--accent); color: #fff; }
-  .btn-primary:hover { background: #ea6c00; transform: translateY(-1px); }
-  .btn-secondary { background: var(--surface2); border: 1px solid var(--border); color: var(--text); }
-  .btn-secondary:hover { border-color: var(--accent2); color: var(--accent2); }
+  .btn-primary { background: var(--accent); color: #0D1B2A; font-weight: 600; box-shadow: 0 0 16px rgba(245,166,35,0.25); }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 0 24px rgba(245,166,35,0.4); }
+  .btn-secondary { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
   .btn-success { background: rgba(74,222,128,0.15); border: 1px solid rgba(74,222,128,0.3); color: var(--green); }
   .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); }
   .btn-ghost:hover { color: var(--text); border-color: var(--text); }
@@ -589,7 +604,7 @@
     padding: 18px;
     transition: all 0.2s;
   }
-  .concept-card:hover { border-color: var(--accent2); transform: translateY(-2px); }
+  .concept-card:hover { border-color: rgba(245,166,35,0.4); background: var(--accent-glow); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.3); }
   .concept-emoji { font-size: 28px; margin-bottom: 10px; }
   .concept-name { font-family: var(--font-head); font-size: 15px; font-weight: 700; margin-bottom: 6px; }
   .concept-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
@@ -627,14 +642,15 @@
     min-height: 100vh;
     padding: 60px 40px;
     text-align: center;
+    background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(245,166,35,0.07) 0%, transparent 70%);
   }
   .welcome-badge {
     display: inline-block;
     padding: 6px 16px;
-    background: rgba(249,115,22,0.12);
-    border: 1px solid rgba(249,115,22,0.3);
+    background: var(--accent-glow);
+    border: 1px solid var(--border);
     border-radius: 20px;
-    font-size: 12px;
+    font-size: 11px;
     font-family: var(--font-mono);
     color: var(--accent);
     margin-bottom: 24px;
@@ -672,7 +688,7 @@
     cursor: pointer;
     transition: all 0.2s;
   }
-  .preview-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+  .preview-card:hover { border-color: rgba(245,166,35,0.4); background: var(--accent-glow); transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,0,0,0.5); }
   .preview-num { font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 8px; }
   .preview-name { font-family: var(--font-head); font-size: 15px; font-weight: 700; margin-bottom: 4px; }
   .preview-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
@@ -685,7 +701,8 @@
     bottom: 24px;
     right: 24px;
     background: var(--surface);
-    border: 1px solid var(--green);
+    border: 1px solid var(--accent);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 20px rgba(245,166,35,0.15);
     border-radius: 12px;
     padding: 14px 20px;
     display: flex;
@@ -703,7 +720,7 @@
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(245,166,35,0.35); }
 
   /* ===== INFO BOX ===== */
   .info-box {
@@ -716,9 +733,9 @@
     gap: 12px;
     align-items: flex-start;
   }
-  .info-box.tip { background: rgba(56,189,248,0.06); border: 1px solid rgba(56,189,248,0.2); color: #93c5fd; }
-  .info-box.warning { background: rgba(251,191,36,0.06); border: 1px solid rgba(251,191,36,0.2); color: #fcd34d; }
-  .info-box.note { background: rgba(167,139,250,0.06); border: 1px solid rgba(167,139,250,0.2); color: #c4b5fd; }
+  .info-box.tip { background: rgba(245,166,35,0.06); border: 1px solid var(--border); border-left: 3px solid var(--accent); color: var(--accent2); }
+  .info-box.warning { background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.2); border-left: 3px solid var(--red); color: #fca5a5; }
+  .info-box.note { background: rgba(167,139,250,0.05); border: 1px solid rgba(167,139,250,0.2); border-left: 3px solid var(--accent3); color: #c4b5fd; }
   .info-icon { font-size: 18px; flex-shrink: 0; }
 
   /* ===== TABLE ===== */
@@ -734,27 +751,156 @@
     text-align: left;
     font-family: var(--font-mono);
     font-size: 12px;
-    color: var(--accent2);
+    color: var(--accent);
     border-bottom: 1px solid var(--border);
   }
   .data-table td {
     padding: 10px 14px;
-    border-bottom: 1px solid rgba(42,53,80,0.5);
+    border-bottom: 1px solid var(--border-subtle);
     color: #94a3b8;
     font-family: var(--font-mono);
     font-size: 13px;
   }
-  .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .data-table tr:hover td { background: var(--accent-glow); }
 
-  @media (max-width: 768px) {
-    #sidebar { width: 60px; min-width: 60px; }
-    .lesson-info, .logo p, .progress-bar-wrap, .lesson-nav-title, .sidebar-footer { display: none; }
-    .lesson-content, .lesson-header { padding: 24px 20px; }
-    .lesson-footer { padding: 20px; flex-direction: column; gap: 12px; }
-    .welcome-title { font-size: 36px; }
-    .lesson-cards-preview { grid-template-columns: 1fr; }
+  /* ── Mobile top bar (hidden on desktop) ─────────────────────────────── */
+  #mobile-topbar {
+    display: none; /* hidden on desktop */
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 56px;
+    background: var(--surface-2, #0A1520);
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    z-index: 200;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  #mobile-topbar .tb-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  #mobile-topbar .tb-wordmark {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.5px;
+    color: #F5F0E8;
+  }
+  #mobile-topbar .tb-wordmark span { color: #F5A623; }
+  #mobile-topbar .tb-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.28);
+    margin-top: 2px;
+  }
+  #mobile-topbar .tb-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  #mobile-topbar .tb-xp {
+    background: var(--accent-glow);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #F5A623;
+  }
+
+  /* ── Hamburger button ───────────────────────────────────────────────── */
+  #hamburger {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--border);
+    background: var(--accent-glow);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: all 0.2s;
+    padding: 0;
+  }
+  #hamburger:hover { border-color: var(--accent); background: rgba(245,166,35,0.18); }
+  #hamburger .bar {
+    width: 18px;
+    height: 2px;
+    background: #F5A623;
+    border-radius: 2px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+  }
+  /* X state */
+  #hamburger.open .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  #hamburger.open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  #hamburger.open .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ── Overlay backdrop ────────────────────────────────────────────────── */
+  #sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 299;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  #sidebar-overlay.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ── Mobile sidebar drawer ─────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    /* Show top bar */
+    #mobile-topbar { display: flex; }
+
+    /* Sidebar becomes a fixed off-screen drawer */
+    #sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 280px !important;
+      min-width: 280px !important;
+      height: 100vh;
+      z-index: 300;
+      transform: translateX(-100%);
+      transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 4px 0 32px rgba(0,0,0,0.6);
+    }
+    /* Sidebar open state */
+    #sidebar.open {
+      transform: translateX(0);
+    }
+
+    /* Push main content down below topbar; full width */
+    #app {
+      flex-direction: column;
+    }
+    #main {
+      margin-top: 56px;
+      max-height: calc(100vh - 56px);
+    }
+
+    /* Content padding tightened for small screens */
+    .lesson-content, .lesson-header { padding: 24px 18px; }
+    .lesson-footer { padding: 18px; flex-direction: column; gap: 10px; }
+    .welcome-title { font-size: 34px; letter-spacing: -1px; }
+    .lesson-cards-preview { grid-template-columns: 1fr; gap: 10px; }
     .concept-grid { grid-template-columns: 1fr 1fr; }
-    .logo h1 { font-size: 14px; }
+    .lesson-main-title { font-size: 28px; }
+    pre { font-size: 11.5px; padding: 14px; }
   }
 </style>
 </head>
@@ -765,12 +911,60 @@
   <span id="toast-msg">Section completed! +10 XP</span>
 </div>
 
+<!-- ── Mobile top bar ───────────────────────────────────────────────────── -->
+<nav id="mobile-topbar">
+  <div class="tb-left">
+    <button id="hamburger" aria-label="Open navigation menu" onclick="toggleSidebar()">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </button>
+  </div>
+  <div class="tb-brand">
+    <svg width="28" height="28" viewBox="0 0 68 68" fill="none">
+      <circle cx="34" cy="34" r="28" stroke="rgba(245,166,35,0.22)" stroke-width="1.2" fill="none" stroke-dasharray="3 5"/>
+      <line x1="34" y1="25" x2="34" y2="10" stroke="#F5A623" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="43" y1="34" x2="58" y2="34" stroke="rgba(245,200,100,.40)" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="34" y1="43" x2="34" y2="58" stroke="rgba(245,200,100,.35)" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="25" y1="34" x2="10" y2="34" stroke="rgba(245,200,100,.25)" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="34" cy="7" r="5.5" fill="#0D1B2A"/><circle cx="34" cy="7" r="5.5" stroke="#F5A623" stroke-width="1.8"/><circle cx="34" cy="7" r="2.5" fill="#F5A623"/>
+      <circle cx="34" cy="34" r="11" fill="#0D1B2A"/><circle cx="34" cy="34" r="11" stroke="#F5A623" stroke-width="2.2"/><circle cx="34" cy="34" r="5.5" fill="#F5A623"/>
+    </svg>
+    <div>
+      <div class="tb-wordmark">Connec<span>Tech</span></div>
+      <div class="tb-sub">Java 101</div>
+    </div>
+  </div>
+  <div class="tb-right">
+    <div class="tb-xp">✦ <span id="xp-display-mobile">0</span> XP</div>
+  </div>
+</nav>
+
+<!-- ── Sidebar backdrop overlay ─────────────────────────────────────────── -->
+<div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
 <div id="app">
   <!-- SIDEBAR -->
   <aside id="sidebar">
-    <div class="logo">
-      <h1>☕ <span>Java</span>101</h1>
-      <p>// beginner_track.java</p>
+    <div class="logo" style="padding:22px 18px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;">
+      <svg width="36" height="36" viewBox="0 0 68 68" fill="none">
+        <circle cx="34" cy="34" r="28" stroke="rgba(245,166,35,0.22)" stroke-width="1.2" fill="none" stroke-dasharray="3 5"/>
+        <circle cx="34" cy="34" r="20" stroke="rgba(245,166,35,0.12)" stroke-width="0.8" fill="none" stroke-dasharray="2 4"/>
+        <line x1="34" y1="25" x2="34" y2="10"  stroke="#F5A623" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="43" y1="34" x2="58" y2="34"  stroke="rgba(245,200,100,.40)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="34" y1="43" x2="34" y2="58"  stroke="rgba(245,200,100,.35)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="25" y1="34" x2="10" y2="34"  stroke="rgba(245,200,100,.25)" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="34" cy="7"  r="5.5" fill="#0D1B2A"/><circle cx="34" cy="7"  r="5.5" stroke="#F5A623" stroke-width="1.8"/><circle cx="34" cy="7"  r="2.5" fill="#F5A623"/>
+        <circle cx="61" cy="34" r="4.5" fill="#0D1B2A"/><circle cx="61" cy="34" r="4.5" stroke="rgba(245,166,35,.40)" stroke-width="1.5"/><circle cx="61" cy="34" r="2.0" fill="rgba(245,166,35,.28)"/>
+        <circle cx="34" cy="61" r="4.5" fill="#0D1B2A"/><circle cx="34" cy="61" r="4.5" stroke="rgba(245,166,35,.32)" stroke-width="1.5"/><circle cx="34" cy="61" r="2.0" fill="rgba(245,166,35,.22)"/>
+        <circle cx="7"  cy="34" r="4.0" fill="#0D1B2A"/><circle cx="7"  cy="34" r="4.0" stroke="rgba(245,166,35,.20)" stroke-width="1.2"/><circle cx="7"  cy="34" r="1.8" fill="rgba(245,166,35,.15)"/>
+        <circle cx="34" cy="34" r="11" fill="#0D1B2A"/><circle cx="34" cy="34" r="11" stroke="#F5A623" stroke-width="2.2"/><circle cx="34" cy="34" r="5.5" fill="#F5A623"/>
+      </svg>
+      <div>
+        <div style="font-family:'Outfit',sans-serif;font-weight:800;font-size:21px;letter-spacing:-0.5px;line-height:1;color:#F5F0E8;">Connec<span style="color:#F5A623;">Tech</span></div>
+        <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.30);margin-top:5px;">by YMCA Vietnam</div>
+        <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1.5px;color:rgba(245,166,35,0.6);margin-top:4px;">☕ Java 101</div>
+      </div>
     </div>
     <div class="progress-bar-wrap">
       <div class="progress-label">
@@ -824,8 +1018,9 @@
         </div>
       </button>
     </nav>
-    <div class="sidebar-footer">
-      <div>🏆 XP: <span id="xp-display">0</span></div>
+    <div class="sidebar-footer" style="display:flex;justify-content:space-between;align-items:center">
+      <span style="color:var(--text-faint);font-size:10px;font-family:var(--font-mono)">v1.0</span>
+      <div style="background:var(--accent-glow);border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-family:var(--font-mono);font-size:11px;color:var(--accent)">✦ <span id="xp-display">0</span> XP</div>
     </div>
   </aside>
 
@@ -834,7 +1029,27 @@
 
     <!-- WELCOME -->
     <div id="welcome-screen">
-      <div class="welcome-badge">✦ BEGINNER TRACK · 6 LESSONS · ~9 HOURS</div>
+      <!-- ConnecTech brand lockup on welcome -->
+      <div style="display:flex;align-items:center;gap:14px;padding:10px 22px;background:var(--accent-glow);border:1px solid var(--border);border-radius:12px;margin-bottom:32px;">
+        <svg width="40" height="40" viewBox="0 0 68 68" fill="none">
+          <circle cx="34" cy="34" r="28" stroke="rgba(245,166,35,0.22)" stroke-width="1.2" fill="none" stroke-dasharray="3 5"/>
+          <circle cx="34" cy="34" r="20" stroke="rgba(245,166,35,0.12)" stroke-width="0.8" fill="none" stroke-dasharray="2 4"/>
+          <line x1="34" y1="25" x2="34" y2="10" stroke="#F5A623" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="43" y1="34" x2="58" y2="34" stroke="rgba(245,200,100,.40)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="34" y1="43" x2="34" y2="58" stroke="rgba(245,200,100,.35)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="25" y1="34" x2="10" y2="34" stroke="rgba(245,200,100,.25)" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="34" cy="7" r="5.5" fill="#0D1B2A"/><circle cx="34" cy="7" r="5.5" stroke="#F5A623" stroke-width="1.8"/><circle cx="34" cy="7" r="2.5" fill="#F5A623"/>
+          <circle cx="61" cy="34" r="4.5" fill="#0D1B2A"/><circle cx="61" cy="34" r="4.5" stroke="rgba(245,166,35,.40)" stroke-width="1.5"/><circle cx="61" cy="34" r="2.0" fill="rgba(245,166,35,.28)"/>
+          <circle cx="34" cy="61" r="4.5" fill="#0D1B2A"/><circle cx="34" cy="61" r="4.5" stroke="rgba(245,166,35,.32)" stroke-width="1.5"/><circle cx="34" cy="61" r="2.0" fill="rgba(245,166,35,.22)"/>
+          <circle cx="7" cy="34" r="4.0" fill="#0D1B2A"/><circle cx="7" cy="34" r="4.0" stroke="rgba(245,166,35,.20)" stroke-width="1.2"/><circle cx="7" cy="34" r="1.8" fill="rgba(245,166,35,.15)"/>
+          <circle cx="34" cy="34" r="11" fill="#0D1B2A"/><circle cx="34" cy="34" r="11" stroke="#F5A623" stroke-width="2.2"/><circle cx="34" cy="34" r="5.5" fill="#F5A623"/>
+        </svg>
+        <div>
+          <div style="font-family:'Outfit',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.5px;color:#F5F0E8;">Connec<span style="color:#F5A623;">Tech</span></div>
+          <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.30);margin-top:4px;">by YMCA Vietnam</div>
+        </div>
+      </div>
+      <div class="welcome-badge">✦ Beginner Track · 6 Lessons · ~9 Hours</div>
       <h1 class="welcome-title">Learn <span class="highlight">Java</span><br>From Scratch</h1>
       <p class="welcome-subtitle">No experience needed. We use plain English, real-world analogies, and hands-on exercises to make Java click — fast.</p>
       <div class="lesson-cards-preview">
@@ -870,7 +1085,7 @@
         </div>
       </div>
       <button class="btn btn-primary" style="font-size:16px; padding: 14px 36px; border-radius: 12px;" onclick="goLesson(0)">
-        🚀 Start Learning
+        Start Learning →
       </button>
     </div>
 
@@ -891,6 +1106,8 @@ let bugAnswered = {};
 function addXP(amount, msg) {
   xp += amount;
   document.getElementById('xp-display').textContent = xp;
+  const mxp = document.getElementById('xp-display-mobile');
+  if (mxp) mxp.textContent = xp;
   showToast(msg || `+${amount} XP`);
   updateProgress();
 }
@@ -914,7 +1131,7 @@ const LESSONS = [
   {
     title: 'Java Fundamentals',
     subtitle: 'Your very first steps — what Java is, why it matters, and writing your first program.',
-    color: '#f97316',
+    color: '#F5A623',
     icon: '☕',
     sections: [
       {
@@ -962,8 +1179,8 @@ Java was created in 1995 and is used <em>everywhere</em>: Android apps, banking 
       {
         type: 'info',
         boxes: [
-          { type: 'tip', icon: '💡', text: '<strong>Tip:</strong> Java is case-sensitive! <code style="color:#f97316">System</code> is NOT the same as <code style="color:#f97316">system</code>. The capital S matters.' },
-          { type: 'warning', icon: '⚠️', text: '<strong>Common mistake:</strong> Every statement in Java must end with a semicolon <code style="color:#fbbf24">;</code> — like a full stop at the end of a sentence.' }
+          { type: 'tip', icon: '💡', text: '<strong>Tip:</strong> Java is case-sensitive! <code style="color:#F5A623">System</code> is NOT the same as <code style="color:#F5A623">system</code>. The capital S matters.' },
+          { type: 'warning', icon: '⚠️', text: '<strong>Common mistake:</strong> Every statement in Java must end with a semicolon <code style="color:#F5A623">;</code> — like a full stop at the end of a sentence.' }
         ]
       },
       {
@@ -1015,7 +1232,7 @@ Java was created in 1995 and is used <em>everywhere</em>: Android apps, banking 
   {
     title: 'Variables & Data Types',
     subtitle: 'Learn how to store information in your program — numbers, text, and more.',
-    color: '#38bdf8',
+    color: '#F7C96A',
     icon: '📦',
     sections: [
       {
@@ -1087,8 +1304,8 @@ System.out.println(<span class="var-name">score</span>); <span class="cmt">// Pr
       {
         type: 'info',
         boxes: [
-          { type: 'tip', icon: '💡', text: '<strong>Naming rules:</strong> Variable names start with a lowercase letter. Use camelCase for multi-word names: <code style="color:#38bdf8">firstName</code>, <code style="color:#38bdf8">totalScore</code>, <code style="color:#38bdf8">isActive</code>' },
-          { type: 'note', icon: '📝', text: '<strong>const values:</strong> Add <code style="color:#a78bfa">final</code> before a variable to make it unchangeable: <code style="color:#a78bfa">final int MAX_SCORE = 100;</code> — by convention, constants use ALL_CAPS.' }
+          { type: 'tip', icon: '💡', text: '<strong>Naming rules:</strong> Variable names start with a lowercase letter. Use camelCase for multi-word names: <code style="color:#F7C96A">firstName</code>, <code style="color:#F7C96A">totalScore</code>, <code style="color:#F7C96A">isActive</code>' },
+          { type: 'note', icon: '📝', text: '<strong>const values:</strong> Add <code style="color:#c4b5fd">final</code> before a variable to make it unchangeable: <code style="color:#c4b5fd">final int MAX_SCORE = 100;</code> — by convention, constants use ALL_CAPS.' }
         ]
       },
       {
@@ -1136,7 +1353,7 @@ System.out.println(<span class="var-name">score</span>); <span class="cmt">// Pr
   {
     title: 'Control Flow',
     subtitle: 'Make your program think! Use if/else to make decisions, and loops to repeat actions.',
-    color: '#a78bfa',
+    color: '#F5A623',
     icon: '🔀',
     sections: [
       {
@@ -1213,8 +1430,8 @@ The condition inside the parentheses must evaluate to <em>true</em> or <em>false
       {
         type: 'info',
         boxes: [
-          { type: 'warning', icon: '⚠️', text: '<strong>Infinite Loop!</strong> If your loop condition never becomes false, your program will run forever and freeze. Always make sure something changes each iteration: <code style="color:#fbbf24">i++</code> or <code style="color:#fbbf24">lives--</code>' },
-          { type: 'tip', icon: '💡', text: '<strong>= vs ==</strong> This trips up <em>every</em> beginner! <code style="color:#38bdf8">x = 5</code> means "assign 5 to x". <code style="color:#38bdf8">x == 5</code> means "is x equal to 5?" Use == for comparisons inside if statements!' }
+          { type: 'warning', icon: '⚠️', text: '<strong>Infinite Loop!</strong> If your loop condition never becomes false, your program will run forever and freeze. Always make sure something changes each iteration: <code style="color:#F5A623">i++</code> or <code style="color:#F5A623">lives--</code>' },
+          { type: 'tip', icon: '💡', text: '<strong>= vs ==</strong> This trips up <em>every</em> beginner! <code style="color:#F7C96A">x = 5</code> means "assign 5 to x". <code style="color:#F7C96A">x == 5</code> means "is x equal to 5?" Use == for comparisons inside if statements!' }
         ]
       },
       {
@@ -1265,7 +1482,7 @@ The condition inside the parentheses must evaluate to <em>true</em> or <em>false
   {
     title: 'Methods & Functions',
     subtitle: 'Stop repeating yourself! Package code into reusable methods that you can call anywhere.',
-    color: '#4ade80',
+    color: '#10B981',
     icon: '🔧',
     sections: [
       {
@@ -1300,7 +1517,7 @@ Methods help make code shorter, more organized, and easier to fix.`,
       {
         type: 'content',
         heading: 'Methods that Return a Value',
-        prose: 'Some methods <strong>return</strong> a result. Instead of <code style="color:#38bdf8">void</code> (meaning "returns nothing"), you specify the type of value returned. Use the <code style="color:#38bdf8">return</code> keyword to send the result back.',
+        prose: 'Some methods <strong>return</strong> a result. Instead of <code style="color:#F7C96A">void</code> (meaning "returns nothing"), you specify the type of value returned. Use the <code style="color:#F7C96A">return</code> keyword to send the result back.',
         code: {
           filename: 'Calculate.java',
           html: `<span class="cmt">// This method takes two numbers and RETURNS their sum</span>
@@ -1381,7 +1598,7 @@ System.out.println(<span class="var-name">check</span>);   <span class="cmt">// 
   {
     title: 'Arrays & Collections',
     subtitle: 'Store multiple values in one place. Work with lists that grow and shrink.',
-    color: '#fbbf24',
+    color: '#F7C96A',
     icon: '📋',
     sections: [
       {
@@ -1393,7 +1610,7 @@ Each spot has an <em>index</em> number starting from <strong>0</strong> (not 1!)
         analogy: {
           icon: '🏢',
           label: 'Real-World Analogy',
-          text: 'Think of an array like a <strong>row of lockers</strong> in a school hallway. Each locker is numbered (0, 1, 2, 3...) and can store one item. You access a specific locker by its number: <code style="color:#fbbf24">locker[3]</code> = the 4th locker (remember: starts at 0!).'
+          text: 'Think of an array like a <strong>row of lockers</strong> in a school hallway. Each locker is numbered (0, 1, 2, 3...) and can store one item. You access a specific locker by its number: <code style="color:#F5A623">locker[3]</code> = the 4th locker (remember: starts at 0!).'
         },
         code: {
           filename: 'Arrays.java',
@@ -1442,7 +1659,7 @@ System.out.println(<span class="var-name">fruits</span>.size());    <span class=
       {
         type: 'info',
         boxes: [
-          { type: 'warning', icon: '⚠️', text: '<strong>Index out of bounds!</strong> Trying to access an index that doesn\'t exist (e.g., element 10 in a 5-element array) causes an error called <code style="color:#f87171">ArrayIndexOutOfBoundsException</code>. Always check your array length!' },
+          { type: 'warning', icon: '⚠️', text: '<strong>Index out of bounds!</strong> Trying to access an index that doesn\'t exist (e.g., element 10 in a 5-element array) causes an error called <code style="color:#fca5a5">ArrayIndexOutOfBoundsException</code>. Always check your array length!' },
           { type: 'tip', icon: '💡', text: '<strong>Array vs ArrayList:</strong> Use a plain array when you know the size upfront. Use ArrayList when items will be added/removed during the program.' }
         ]
       },
@@ -1480,7 +1697,7 @@ System.out.println(<span class="var-name">fruits</span>.size());    <span class=
   {
     title: 'OOP Basics — Classes & Objects',
     subtitle: 'The biggest idea in Java: modeling the real world with Objects and Classes.',
-    color: '#f43f5e',
+    color: '#F5A623',
     icon: '🏗️',
     sections: [
       {
@@ -1498,7 +1715,7 @@ Everything has two sides: <strong>attributes</strong> (what it IS) and <strong>b
       {
         type: 'content',
         heading: 'Creating a Class',
-        prose: 'Let\'s create a <code style="color:#50fa7b">Dog</code> class with attributes (name, breed, age) and behaviors (bark, describe):',
+        prose: 'Let\'s create a <code style="color:#6EE7B7">Dog</code> class with attributes (name, breed, age) and behaviors (bark, describe):',
         code: {
           filename: 'Dog.java',
           html: `<span class="kw">public class</span> <span class="cls">Dog</span> {
@@ -1530,7 +1747,7 @@ Everything has two sides: <strong>attributes</strong> (what it IS) and <strong>b
       {
         type: 'content',
         heading: 'Creating and Using Objects',
-        prose: 'Now we use the <code style="color:#ff79c6">new</code> keyword to create objects from our Dog blueprint:',
+        prose: 'Now we use the <code style="color:#C4B5FD">new</code> keyword to create objects from our Dog blueprint:',
         code: {
           filename: 'Main.java',
           html: `<span class="kw">public class</span> <span class="cls">Main</span> {
@@ -1623,6 +1840,7 @@ function goLesson(idx) {
   renderLesson(idx);
   updateNavActive(idx);
   document.getElementById('main').scrollTo(0,0);
+  if (window.innerWidth <= 1024) closeSidebar();
 }
 
 function updateNavActive(idx) {
@@ -1738,7 +1956,7 @@ function renderQuiz(sec, lessonIdx) {
         <div class="quiz-icon">❓</div>
         <div><div class="quiz-title">Quick Quiz</div><div class="quiz-subtitle">Test your understanding</div></div>
       </div>
-      <div class="quiz-question">${sec.question.replace(/\n/g,'<br><code style="display:block;margin:8px 0;padding:8px 12px;background:#0d1117;border-radius:6px;font-family:var(--font-mono);font-size:12px;color:#f8f8f2;white-space:pre;">')}</div>
+      <div class="quiz-question">${sec.question.replace(/\n/g,'<br><code style="display:block;margin:8px 0;padding:8px 12px;background:var(--code-bg);border:1px solid var(--border);border-radius:6px;font-family:var(--font-mono);font-size:12px;color:var(--code-text);white-space:pre;">')}</div>
       <div class="quiz-options">${opts}</div>
       <div class="quiz-feedback" id="qf-${sec.id}">${sec.feedback}</div>
     </div>
@@ -1990,8 +2208,17 @@ function completeLesson(idx) {
   const container = document.getElementById('lesson-container');
   container.innerHTML = `
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;text-align:center;padding:40px">
-      <div style="font-size:80px;margin-bottom:24px">🎓</div>
-      <h1 style="font-family:var(--font-head);font-size:48px;font-weight:800;margin-bottom:16px;letter-spacing:-2px">
+      <svg width="60" height="60" viewBox="0 0 68 68" fill="none" style="margin-bottom:24px">
+        <circle cx="34" cy="34" r="28" stroke="rgba(245,166,35,0.22)" stroke-width="1.2" fill="none" stroke-dasharray="3 5"/>
+        <line x1="34" y1="25" x2="34" y2="10" stroke="#F5A623" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="43" y1="34" x2="58" y2="34" stroke="rgba(245,200,100,.40)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="34" y1="43" x2="34" y2="58" stroke="rgba(245,200,100,.35)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="25" y1="34" x2="10" y2="34" stroke="rgba(245,200,100,.25)" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="34" cy="7" r="5.5" fill="#0D1B2A"/><circle cx="34" cy="7" r="5.5" stroke="#F5A623" stroke-width="1.8"/><circle cx="34" cy="7" r="2.5" fill="#F5A623"/>
+        <circle cx="34" cy="34" r="11" fill="#0D1B2A"/><circle cx="34" cy="34" r="11" stroke="#F5A623" stroke-width="2.2"/><circle cx="34" cy="34" r="5.5" fill="#F5A623"/>
+      </svg>
+      <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:rgba(245,240,232,0.3);margin-bottom:10px;text-transform:uppercase">ConnecTech by YMCA Vietnam</div>
+      <h1 style="font-family:var(--font-head);font-size:48px;font-weight:800;margin-bottom:16px;letter-spacing:-2px;color:#F5F0E8">
         You Did It!
       </h1>
       <p style="color:var(--muted);font-size:18px;max-width:480px;margin:0 auto 32px;line-height:1.7">
@@ -2003,7 +2230,7 @@ function completeLesson(idx) {
           <div style="font-family:var(--font-head);font-weight:700">6 Lessons</div>
           <div style="color:var(--muted);font-size:12px">Completed</div>
         </div>
-        <div style="background:var(--surface);border:1px solid var(--green);border-radius:12px;padding:20px;text-align:center">
+        <div style="background:var(--surface);border:1px solid var(--accent);border-radius:12px;padding:20px;text-align:center;box-shadow:0 0 20px rgba(245,166,35,0.1)">
           <div style="font-size:32px;margin-bottom:6px">🏆</div>
           <div style="font-family:var(--font-head);font-weight:700">${xp} XP</div>
           <div style="color:var(--muted);font-size:12px">Earned</div>
@@ -2024,6 +2251,31 @@ function escapeHtml(str) {
 
 // ===== INIT =====
 updateProgress();
+
+// ── Hamburger / sidebar drawer ────────────────────────────────────────────
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar.classList.contains('open')) {
+    closeSidebar();
+  } else {
+    sidebar.classList.add('open');
+    document.getElementById('sidebar-overlay').classList.add('visible');
+    document.getElementById('hamburger').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('visible');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeSidebar();
+});
+
 </script>
 </body>
 </html>
