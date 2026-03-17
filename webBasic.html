@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ConnecTech Learning Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#080C14; --bg2:#0F172A; --bg3:#1E293B; --bg4:#374151;
+  --border:#334155;
+  --sky:#38BDF8; --indigo:#818CF8; --green:#34D399; --orange:#FB923C; --pink:#F472B6; --gold:#FBBF24;
+  --text:#E2E8F0; --muted:#64748B; --white:#FFFFFF;
+  --code:#0D1117; --codeborder:#30363D; --r:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(56,189,248,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.03) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;z-index:0;}
+.shell{display:flex;min-height:100vh;position:relative;z-index:1;}
+
+/* ─── SIDEBAR ─── */
+.sidebar{width:258px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0;}
+.sidebar::-webkit-scrollbar{width:4px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.logo-wrap{padding:22px 18px 16px;border-bottom:1px solid var(--border);}
+.logo-chip{display:inline-block;font-family:'Space Mono',monospace;font-size:10px;color:var(--sky);background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.2);padding:3px 10px;border-radius:20px;letter-spacing:2px;margin-bottom:8px;}
+.logo-name{font-size:21px;font-weight:700;color:var(--white);line-height:1.2;}
+.logo-name em{color:var(--sky);font-style:normal;}
+.prog-wrap{padding:14px 18px;border-bottom:1px solid var(--border);}
+.prog-lbl{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;}
+.prog-track{background:var(--bg3);border-radius:99px;height:5px;}
+.prog-fill{height:5px;border-radius:99px;background:linear-gradient(90deg,var(--sky),var(--indigo));transition:width .5s;}
+.prog-txt{font-family:'Space Mono',monospace;font-size:11px;color:var(--sky);margin-top:5px;}
+.nav-wrap{flex:1;padding:10px 0;}
+.nav-lbl{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;padding:8px 18px 3px;}
+.nitem{display:flex;align-items:center;gap:10px;padding:10px 18px;cursor:pointer;transition:all .15s;border-left:3px solid transparent;}
+.nitem:hover{background:rgba(255,255,255,.03);}
+.nitem.active{background:rgba(56,189,248,.07);border-left-color:var(--sky);}
+.nitem.active .ntitle{color:var(--sky);}
+.nnum{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);width:22px;flex-shrink:0;}
+.nitem.active .nnum{color:var(--sky);}
+.ntitle{font-size:13px;color:var(--text);flex:1;line-height:1.3;}
+.ncheck{width:17px;height:17px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;transition:all .2s;}
+.ncheck.done{background:var(--green);border-color:var(--green);color:var(--bg);}
+
+/* ─── MAIN ─── */
+.main{flex:1;min-width:0;}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+.topbar-title{font-size:14px;font-weight:600;color:var(--white);}
+.topbar-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.topbar-btns{display:flex;gap:8px;}
+.btn{padding:7px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:'DM Sans',sans-serif;}
+.btn-primary{background:var(--sky);color:var(--bg);} .btn-primary:hover{opacity:.88;transform:translateY(-1px);}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border);} .btn-ghost:hover{color:var(--text);}
+.btn-outline{background:transparent;border:1px solid rgba(56,189,248,.35);color:var(--sky);} .btn-outline:hover{background:rgba(56,189,248,.07);}
+.content{padding:28px 28px 48px;max-width:920px;}
+
+/* ─── MODULE HEADER ─── */
+.mod-hdr{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px 28px;margin-bottom:22px;display:flex;gap:20px;align-items:flex-start;}
+.mod-icon{width:58px;height:58px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
+.mod-tag{font-size:10px;font-family:'Space Mono',monospace;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.mod-title{font-size:23px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.mod-sub{font-size:14px;color:var(--muted);}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.chip{font-size:12px;padding:3px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;color:var(--muted);}
+.chip span{color:var(--text);}
+
+/* ─── TABS ─── */
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:22px;}
+.tab{padding:11px 18px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .14s;user-select:none;}
+.tab:hover{color:var(--text);} .tab.active{color:var(--sky);border-bottom-color:var(--sky);}
+.tpanel{display:none;}
+.tpanel.active{display:block;animation:fup .18s ease;}
+@keyframes fup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── LEARN ─── */
+.slbl{font-size:10px;font-family:'Space Mono',monospace;color:var(--sky);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+.ccard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;margin-bottom:12px;transition:border-color .2s;}
+.ccard:hover{border-color:rgba(56,189,248,.3);}
+.ccard h3{font-size:15px;font-weight:600;color:var(--white);margin-bottom:6px;}
+.ccard p{font-size:13.5px;color:var(--muted);line-height:1.65;}
+.ccard code{font-family:'Space Mono',monospace;font-size:11.5px;background:var(--bg3);padding:2px 6px;border-radius:4px;color:var(--sky);}
+.tipbox{padding:12px 16px;border-radius:8px;font-size:13px;line-height:1.6;margin-bottom:14px;}
+.tipbox.info{background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.18);color:#BAE6FD;}
+.tipbox.warn{background:rgba(251,146,60,.07);border:1px solid rgba(251,146,60,.18);color:#FED7AA;}
+
+/* ─── CHEATSHEET ─── */
+.csGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.csCard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;}
+.csCard h4{font-size:13px;font-weight:600;margin-bottom:10px;}
+.csRow{display:flex;gap:8px;margin-bottom:7px;align-items:baseline;}
+.csCode{font-family:'Space Mono',monospace;font-size:11px;color:var(--sky);background:var(--bg3);padding:2px 7px;border-radius:4px;flex-shrink:0;}
+.csDesc{font-size:12px;color:var(--muted);}
+
+/* ─── EDITOR ─── */
+.edWrap{background:var(--code);border:1px solid var(--codeborder);border-radius:12px;overflow:hidden;margin-bottom:16px;box-shadow:0 8px 28px rgba(0,0,0,.4);}
+.edBar{background:#161B22;padding:9px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--codeborder);}
+.dots{display:flex;gap:6px;}
+.dot{width:12px;height:12px;border-radius:50%;}
+.dr{background:#FF5F56;} .dy{background:#FFBD2E;} .dg{background:#27C93F;}
+.edFile{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);}
+.edBtns{display:flex;gap:7px;}
+.ebtn{padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .14s;}
+.runBtn{background:var(--green);color:#0a0a0a;} .runBtn:hover{opacity:.85;}
+.rstBtn{background:transparent;color:var(--muted);border:1px solid var(--border);} .rstBtn:hover{color:var(--text);}
+.edBody{display:grid;grid-template-columns:1fr 1fr;min-height:300px;}
+.pane{position:relative;} .pane+.pane{border-left:1px solid var(--codeborder);}
+.paneLbl{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:5px 12px;background:#0D1117;border-bottom:1px solid #1C2128;letter-spacing:1px;}
+textarea{width:100%;background:var(--code);color:#E2E8F0;border:none;outline:none;font-family:'Space Mono',monospace;font-size:12px;line-height:1.7;padding:12px 14px;resize:none;min-height:288px;tab-size:2;}
+iframe.preview{width:100%;min-height:288px;background:white;border:none;}
+
+/* ─── TASKS ─── */
+.taskHdr{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:14px;}
+.taskHdr h3{font-size:14px;font-weight:600;margin-bottom:4px;}
+.taskHdr p{font-size:13px;color:var(--muted);}
+.taskProg{display:flex;align-items:center;gap:10px;margin-top:10px;}
+.taskProgBar{flex:1;height:4px;background:var(--bg3);border-radius:2px;}
+.taskProgFill{height:4px;border-radius:2px;background:var(--green);transition:width .3s;}
+.taskProgLbl{font-family:'Space Mono',monospace;font-size:11px;color:var(--green);}
+.taskList{display:flex;flex-direction:column;gap:7px;margin-bottom:16px;}
+.titem{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,.02);cursor:pointer;transition:all .14s;}
+.titem:hover{background:rgba(255,255,255,.04);}
+.titem.done{opacity:.6;}
+.tcb{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;transition:all .14s;}
+.titem.done .tcb{background:var(--green);border-color:var(--green);color:var(--bg);}
+.titem.done .ttxt{text-decoration:line-through;color:var(--muted);}
+.ttxt{font-size:13.5px;}
+
+/* ─── QUIZ ─── */
+.scoreRow{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.scoreLbl{font-size:12px;color:var(--muted);}
+.scoreVal{font-family:'Space Mono',monospace;font-size:18px;font-weight:700;}
+.qcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px;}
+.qnum{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:8px;letter-spacing:1px;}
+.qtxt{font-size:16px;font-weight:600;color:var(--white);margin-bottom:14px;line-height:1.5;}
+.qopts{display:flex;flex-direction:column;gap:8px;}
+.qopt{display:flex;align-items:center;gap:11px;padding:10px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg3);cursor:pointer;font-size:13.5px;transition:all .14s;}
+.qopt:hover:not(.answered){border-color:var(--sky);background:rgba(56,189,248,.06);}
+.qopt.correct{border-color:var(--green);background:rgba(52,211,153,.1);color:var(--green);}
+.qopt.wrong{border-color:#F87171;background:rgba(248,113,113,.1);color:#F87171;}
+.qletter{width:24px;height:24px;border-radius:6px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;flex-shrink:0;}
+.qopt.correct .qletter{background:var(--green);border-color:var(--green);color:var(--bg);}
+.qopt.wrong .qletter{background:#F87171;border-color:#F87171;color:white;}
+.qfb{margin-top:11px;padding:10px 14px;border-radius:7px;font-size:13px;display:none;}
+.qfb.correct{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.25);color:var(--green);}
+.qfb.wrong{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:#F87171;}
+
+/* ─── HOMEWORK ─── */
+.hwCard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px;}
+.hwTop{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.hwTitle{font-size:15px;font-weight:600;color:var(--white);}
+.hwBadge{font-size:10px;font-family:'Space Mono',monospace;padding:3px 9px;border-radius:20px;}
+.hwBadge.easy{background:rgba(52,211,153,.15);color:var(--green);}
+.hwBadge.medium{background:rgba(251,146,60,.15);color:var(--orange);}
+.hwBadge.hard{background:rgba(248,113,113,.15);color:#F87171;}
+.hwBody{padding:18px 20px;}
+.hwDesc{font-size:13.5px;color:var(--muted);line-height:1.65;margin-bottom:14px;}
+.hwItems{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.hwItems li{font-size:13.5px;padding-left:18px;position:relative;color:var(--text);}
+.hwItems li::before{content:'→';position:absolute;left:0;color:var(--sky);}
+
+/* ─── COMPLETION ─── */
+.doneBanner{background:linear-gradient(135deg,rgba(52,211,153,.12),rgba(56,189,248,.08));border:1px solid rgba(52,211,153,.25);border-radius:14px;padding:24px;text-align:center;display:none;margin-bottom:20px;}
+.doneBanner.show{display:block;animation:fup .4s;}
+.doneBanner h2{font-size:20px;font-weight:700;color:var(--green);margin-bottom:6px;}
+.doneBanner p{font-size:14px;color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ─── SIDEBAR ─── -->
+<aside class="sidebar">
+  <div class="logo-wrap">
+    <div class="logo-chip">CONNECTECH</div>
+    <div class="logo-name">Web Dev<br><em>Course</em></div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-lbl">Overall Progress</div>
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    <div class="prog-txt" id="progTxt">0 / 6 lessons</div>
+  </div>
+  <nav class="nav-wrap">
+    <div class="nav-lbl">Lessons</div>
+    <div class="nitem active" data-l="1" onclick="goLesson(1)">
+      <span class="nnum">L1</span><span class="ntitle">HTML Foundations</span>
+      <div class="ncheck" id="chk-1"></div>
+    </div>
+    <div class="nitem" data-l="2" onclick="goLesson(2)">
+      <span class="nnum">L2</span><span class="ntitle">CSS Styling &amp; Layout</span>
+      <div class="ncheck" id="chk-2"></div>
+    </div>
+    <div class="nitem" data-l="3" onclick="goLesson(3)">
+      <span class="nnum">L3</span><span class="ntitle">JavaScript Essentials</span>
+      <div class="ncheck" id="chk-3"></div>
+    </div>
+    <div class="nitem" data-l="4" onclick="goLesson(4)">
+      <span class="nnum">L4</span><span class="ntitle">Navigation &amp; Multi-Page</span>
+      <div class="ncheck" id="chk-4"></div>
+    </div>
+    <div class="nitem" data-l="5" onclick="goLesson(5)">
+      <span class="nnum">L5</span><span class="ntitle">Building the Store Pages</span>
+      <div class="ncheck" id="chk-5"></div>
+    </div>
+    <div class="nitem" data-l="6" onclick="goLesson(6)">
+      <span class="nnum">L6</span><span class="ntitle">Product Detail &amp; Final</span>
+      <div class="ncheck" id="chk-6"></div>
+    </div>
+  </nav>
+</aside>
+
+<!-- ─── MAIN ─── -->
+<main class="main">
+  <div class="topbar">
+    <div>
+      <div class="topbar-title" id="tbarTitle">Lesson 1 — HTML Foundations</div>
+      <div class="topbar-sub" id="tbarSub">⏱ 1.5 hours · Structure, Elements &amp; Semantic Markup</div>
+    </div>
+    <div class="topbar-btns">
+      <button class="btn btn-ghost" onclick="prevLesson()">← Prev</button>
+      <button class="btn btn-primary" onclick="nextLesson()">Next →</button>
+    </div>
+  </div>
+  <div class="content" id="content"></div>
+</main>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  LESSON DATA
+// ═══════════════════════════════════════════════════════════
+const L = {
+  1:{
+    title:'HTML Foundations', sub:'Structure, Elements & Semantic Markup',
+    icon:'🏗️', color:'#38BDF8', merges:'Module 1',
+    concepts:[
+      {h:'What is HTML?',b:'HTML (HyperText Markup Language) gives structure to web pages. The browser downloads the HTML file and renders it visually. HTML alone has no colour or animation — CSS handles styling and JavaScript handles behaviour. Every web page is just a plain text <code>.html</code> file.'},
+      {h:'Tags, Elements & Nesting',b:'Most elements use opening + closing tags: <code>&lt;h1&gt;Title&lt;/h1&gt;</code>. Self-closing tags have no content: <code>&lt;img src=""&gt;</code>, <code>&lt;br&gt;</code>, <code>&lt;input&gt;</code>. Elements are nested inside each other — always close inner tags before outer ones. Attributes go inside the opening tag: <code>&lt;a href="url"&gt;</code>.'},
+      {h:'Semantic HTML',b:'Use meaningful tags: <code>&lt;header&gt;</code> for the page header, <code>&lt;nav&gt;</code> for navigation, <code>&lt;main&gt;</code> for main content, <code>&lt;section&gt;</code> for content groups, <code>&lt;article&gt;</code> for standalone pieces (product cards), <code>&lt;aside&gt;</code> for sidebars, <code>&lt;footer&gt;</code>. This helps search engines, screen readers, and your teammates understand the structure.'},
+      {h:'Forms & Inputs',b:'Forms collect user data. Key input types: <code>type="text"</code> (single line), <code>type="number"</code> (with up/down arrows), <code>type="email"</code> (validates email format), <code>type="checkbox"</code> (tick box), <code>type="radio"</code> (pick one). Use <code>&lt;select&gt;</code> for dropdowns and <code>&lt;textarea&gt;</code> for multi-line text. Add <code>placeholder=""</code> for hint text and <code>required</code> for validation.'},
+    ],
+    sheet:[
+      {title:'📝 Text & Structure',items:[['&lt;h1&gt;–&lt;h6&gt;','Headings (h1 = biggest)'],['&lt;p&gt;','Paragraph'],['&lt;strong&gt;','Bold text'],['&lt;em&gt;','Italic text'],['&lt;span&gt;','Inline wrapper (no line break)'],['&lt;div&gt;','Block wrapper (new line)'],['&lt;br&gt;','Line break'],['&lt;hr&gt;','Horizontal divider']]},
+      {title:'🔗 Links & Media',items:[['&lt;a href="url"&gt;','Hyperlink'],['href="#id"','Jump to section'],['target="_blank"','Open in new tab'],['&lt;img src="" alt=""&gt;','Image (alt = required)'],['&lt;ul&gt; / &lt;ol&gt;','Unordered / ordered list'],['&lt;li&gt;','List item'],['&lt;iframe src=""&gt;','Embed video / map'],['&lt;table&gt;, &lt;tr&gt;, &lt;td&gt;','Table structure']]},
+      {title:'🏗️ Semantic Layout',items:[['&lt;header&gt;','Page header'],['&lt;nav&gt;','Navigation links'],['&lt;main&gt;','Main content area'],['&lt;section&gt;','Thematic content group'],['&lt;article&gt;','Standalone content (card)'],['&lt;aside&gt;','Sidebar / related content'],['&lt;footer&gt;','Page footer'],['&amp;copy;','© copyright symbol']]},
+      {title:'📋 Forms',items:[['type="text"','Single-line text'],['type="number"','Number with arrows'],['type="email"','Email with validation'],['type="checkbox"','Tick box'],['&lt;select&gt;&lt;option&gt;','Dropdown menu'],['&lt;textarea&gt;','Multi-line text'],['placeholder=""','Hint text in field'],['required','Block submit if empty']]},
+    ],
+    starter:`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ConnecTech Store</title>
+</head>
+<body>
+
+  <header>
+    <h1>ConnecTech</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="cart.html">Cart</a>
+    </nav>
+  </header>
+
+  <main>
+    <aside>
+      <h3>Categories</h3>
+      <ul>
+        <li>📱 Phones</li>
+        <li>💻 Laptops</li>
+        <li>🎧 Audio</li>
+      </ul>
+    </aside>
+
+    <section id="hot-sales">
+      <h2>🔥 Hot Sales</h2>
+
+      <article>
+        <h3>Wireless Headphones</h3>
+        <p>Price: $49.99 <s>$79.99</s></p>
+        <button>Add to Cart</button>
+      </article>
+
+      <article>
+        <h3>Smartphone Pro</h3>
+        <p>Price: $299 <s>$399</s></p>
+        <button>Add to Cart</button>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 ConnecTech by YMCA Vietnam</p>
+  </footer>
+
+</body>
+</html>`,
+    taskTitle:'Build the ConnecTech HTML Scaffold',
+    tasks:['Add the full HTML skeleton: DOCTYPE, html, head (with title + charset), body','Create a <header> with <h1> logo and <nav> with 3 links','Add a <main> with an <aside> (3 category links) and a <section id="hot-sales">','Add 2 <article> product cards inside the section: img, h3, price p, button','Add a <footer> with copyright using &amp;copy;','Add a search <form> in the header: text input + submit button'],
+    quiz:[
+      {q:'Which tag represents a standalone piece of content like a product card?',o:['&lt;section&gt;','&lt;div&gt;','&lt;article&gt;','&lt;content&gt;'],a:2},
+      {q:'What does the "alt" attribute on &lt;img&gt; do?',o:['Sets the image size','Provides alternative text for accessibility & broken images','Links the image to a URL','Makes the image clickable'],a:1},
+      {q:'Which input type shows a number with up/down arrows?',o:['type="text"','type="numeric"','type="range"','type="number"'],a:3},
+      {q:'Where do CSS and JavaScript file links go in HTML?',o:['Inside &lt;body&gt; at bottom','Inside &lt;head&gt;','Before &lt;!DOCTYPE&gt;','Inside the first &lt;div&gt;'],a:1},
+    ],
+    hw:{lvl:'easy',title:'ConnecTech HTML Scaffold',desc:'Build the complete HTML structure for all four ConnecTech pages — no CSS yet, just clean semantic HTML.',items:['index.html: &lt;header&gt; (logo + nav), &lt;main&gt; (sidebar + 3 product &lt;article&gt; elements), &lt;footer&gt;','products.html: same header/footer, main grid area with &lt;h1&gt;All Products (12)&lt;/h1&gt;','product.html: header/footer, empty .c-product-detail div with id="productName", id="productPrice" etc.','cart.html: header/footer, &lt;div id="cartItems"&gt; and &lt;div id="cartTotal"&gt;','Each product article: &lt;img&gt;, &lt;h3&gt; name, current price, strikethrough original price, Add to Cart button','BONUS: Add a search &lt;form&gt; in the header with a text input and submit button']},
+  },
+
+  2:{
+    title:'CSS Styling & Layout', sub:'Selectors, Box Model & Flexbox',
+    icon:'🎨', color:'#818CF8', merges:'Modules 2 & 5',
+    concepts:[
+      {h:'Selectors & the Cascade',b:'CSS rule: <code>selector { property: value; }</code>. Three key selectors: element (<code>p{}</code>), class (<code>.card{}</code>), ID (<code>#header{}</code>). When rules conflict, the more specific rule wins: ID > class > element. Later rules also override earlier rules with equal specificity. Link CSS with <code>&lt;link rel="stylesheet" href="style.css"&gt;</code> in <code>&lt;head&gt;</code>.'},
+      {h:'The Box Model',b:'Every HTML element is a rectangular box: <strong>Content</strong> (text/image) → <strong>Padding</strong> (space inside, between content and border) → <strong>Border</strong> (visible outline) → <strong>Margin</strong> (space outside, between elements). Always add <code>* { box-sizing: border-box; }</code> so padding is included in the width. <code>border-radius: 12px</code> rounds corners. <code>margin: 0 auto</code> horizontally centres a block element.'},
+      {h:'Colors & Typography',b:'Colors: <code>#0F172A</code> (hex), <code>rgb(15,23,42)</code>, <code>rgba(0,0,0,0.5)</code> (with transparency). Font properties: <code>font-family: "Arial", sans-serif</code>, <code>font-size: 16px</code> (also rem/em/%), <code>font-weight: bold</code> or <code>700</code>, <code>line-height: 1.6</code> (1.5–1.8 is readable), <code>text-decoration: none | underline | line-through</code>, <code>text-align: left | center | right</code>.'},
+      {h:'Flexbox Layout',b:'Add <code>display: flex</code> to a container — its direct children become flex items arranged in a row. Key properties: <code>flex-direction: column</code> (vertical stack), <code>justify-content: space-between</code> (spread along main axis), <code>align-items: center</code> (align on cross axis), <code>gap: 16px</code> (space between items), <code>flex-wrap: wrap</code> (cards wrap to next row), <code>flex: 1</code> on a child to fill all remaining space, <code>flex-shrink: 0</code> to prevent a child from shrinking.'},
+    ],
+    sheet:[
+      {title:'🎯 Selectors',items:[['p {}','All &lt;p&gt; tags'],['  .card {}','class="card"'],['#header {}','id="header" (unique)'],['nav a {}','&lt;a&gt; inside &lt;nav&gt;'],['a:hover {}','On mouse-over'],['li:first-child {}','First list item'],['h1, h2 {}','Multiple elements'],['* {}','Everything']]},
+      {title:'📦 Box Model',items:[['padding','Space inside (content→border)'],['margin','Space outside (border→next element)'],['border: 1px solid #ccc','Visible outline'],['border-radius: 12px','Rounded corners'],['box-sizing: border-box','Padding included in width'],['margin: 0 auto','Centre block horizontally'],['overflow: hidden','Clip overflowing content'],['box-shadow: 0 4px 12px rgba(0,0,0,.1)','Drop shadow']]},
+      {title:'🎨 Colour & Text',items:[['color','Text colour'],['background-color','Fill colour'],['font-family: "Arial", sans-serif','Typeface'],['font-size: 16px','Text size'],['font-weight: bold / 700','Bold'],['line-height: 1.6','Line spacing'],['text-decoration: none','Remove underline'],['text-transform: uppercase','ALL CAPS']]},
+      {title:'📐 Flexbox',items:[['display: flex','Enable flexbox on container'],['flex-direction: column','Stack vertically'],['justify-content: space-between','Spread on main axis'],['align-items: center','Centre on cross axis'],['gap: 16px','Space between children'],['flex-wrap: wrap','Wrap to next row'],['flex: 1','Fill all remaining space'],['flex-shrink: 0','Never shrink (e.g. sidebar)']]},
+    ],
+    starter:`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ConnecTech Styled</title>
+<style>
+  /* ── Reset ── */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #F8FAFC;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .c-header {
+    background: #0F172A;
+    color: white;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .c-logo { font-size: 18px; font-weight: bold; }
+  .c-header nav a {
+    color: #94A3B8;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  .c-header nav a:hover { color: #38BDF8; }
+
+  /* ── Page layout ── */
+  .p-layout { display: flex; flex: 1; overflow: hidden; }
+
+  .c-sidebar {
+    width: 220px;
+    background: white;
+    border-right: 1px solid #E2E8F0;
+    padding: 20px;
+    flex-shrink: 0;
+    overflow-y: auto;
+  }
+  .c-sidebar-item {
+    padding: 9px 0;
+    font-size: 14px;
+    color: #475569;
+    cursor: pointer;
+    border-bottom: 1px solid #F1F5F9;
+    transition: color 0.15s;
+  }
+  .c-sidebar-item:hover { color: #38BDF8; }
+
+  .c-main { flex: 1; padding: 24px; overflow-y: auto; }
+
+  /* ── Section ── */
+  .c-section { margin-bottom: 32px; }
+  .c-section h2 { font-size: 19px; color: #0F172A; margin-bottom: 16px; }
+
+  /* ── Product grid ── */
+  .c-product-grid { display: flex; flex-wrap: wrap; gap: 16px; }
+
+  /* ── Product card ── */
+  .c-product-card {
+    width: 190px;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .c-product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+  }
+  .c-badge {
+    position: absolute;
+    top: 8px; right: 8px;
+    background: #EF4444;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 7px;
+    border-radius: 20px;
+  }
+  .c-card-img {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 52px;
+  }
+  .c-card-body { padding: 12px; }
+  .c-card-name { font-size: 13px; font-weight: 500; color: #0F172A; margin-bottom: 6px; }
+  .c-price-current { font-weight: bold; font-size: 15px; color: #0F172A; }
+  .c-price-original { font-size: 12px; color: #94A3B8; text-decoration: line-through; margin-left: 5px; }
+  .c-card-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px;
+    background: #0F172A;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .c-card-btn:hover { background: #38BDF8; color: #0F172A; }
+
+  /* ── Fixed cart button ── */
+  .c-cart-btn {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    background: #38BDF8;
+    color: #0F172A;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(56,189,248,0.4);
+  }
+</style>
+</head>
+<body>
+
+  <header class="c-header">
+    <div class="c-logo">ConnecTech</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Products</a>
+      <a href="#">Cart</a>
+    </nav>
+  </header>
+
+  <div class="p-layout">
+    <aside class="c-sidebar">
+      <p style="font-size:11px;color:#94A3B8;margin-bottom:10px;letter-spacing:1px">CATEGORIES</p>
+      <div class="c-sidebar-item">📱 Phones</div>
+      <div class="c-sidebar-item">💻 Laptops</div>
+      <div class="c-sidebar-item">🎧 Audio</div>
+      <div class="c-sidebar-item">⌨️ Accessories</div>
+    </aside>
+
+    <main class="c-main">
+      <section class="c-section">
+        <h2>🔥 Hot Sales</h2>
+        <div class="c-product-grid">
+
+          <div class="c-product-card">
+            <span class="c-badge">-38%</span>
+            <div class="c-card-img" style="background:#DBEAFE">🎧</div>
+            <div class="c-card-body">
+              <div class="c-card-name">Wireless Headphones</div>
+              <span class="c-price-current">$49.99</span>
+              <span class="c-price-original">$79.99</span>
+              <button class="c-card-btn">Add to Cart</button>
+            </div>
+          </div>
+
+          <div class="c-product-card">
+            <span class="c-badge">-25%</span>
+            <div class="c-card-img" style="background:#DCFCE7">📱</div>
+            <div class="c-card-body">
+              <div class="c-card-name">Smartphone Pro Max</div>
+              <span class="c-price-current">$299</span>
+              <span class="c-price-original">$399</span>
+              <button class="c-card-btn">Add to Cart</button>
+            </div>
+          </div>
+
+          <div class="c-product-card">
+            <span class="c-badge">-25%</span>
+            <div class="c-card-img" style="background:#FEF3C7">💻</div>
+            <div class="c-card-body">
+              <div class="c-card-name">Ultrabook Slim 14</div>
+              <span class="c-price-current">$899</span>
+              <span class="c-price-original">$1199</span>
+              <button class="c-card-btn">Add to Cart</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <button class="c-cart-btn">🛒 Cart (0)</button>
+
+</body>
+</html>`,
+    taskTitle:'Style the ConnecTech Layout',
+    tasks:['Add * { box-sizing:border-box; margin:0; padding:0; } as a reset at the top of your CSS','Style .c-header: dark background #0F172A, white text, flexbox, space-between, sticky + z-index:10','Style nav links: colour #94A3B8, no underline, transition, hover changes to #38BDF8','Create .p-layout with display:flex — sidebar fixed 220px (flex-shrink:0) + main (flex:1)','Style .c-product-card: white bg, border, border-radius:12px, overflow:hidden, hover lift effect','Add .c-badge: position:absolute, top:8px right:8px — parent card needs position:relative'],
+    quiz:[
+      {q:'Which CSS property controls spacing INSIDE an element (between content and border)?',o:['margin','spacing','padding','gap'],a:2},
+      {q:'What does "flex: 1" on a flex child do?',o:['Makes font flexible','Makes it the first item','Grows to fill all remaining space','Sets a 1px border'],a:2},
+      {q:'What CSS keeps the header visible as you scroll?',o:['display: fixed','position: sticky; top: 0','overflow: fixed','z-index: sticky'],a:1},
+      {q:'Which selector targets &lt;a&gt; tags INSIDE a &lt;nav&gt; only?',o:['a.nav {}','#nav a {}','nav > a {}','nav a {}'],a:3},
+    ],
+    hw:{lvl:'easy',title:'Style the Full ConnecTech Layout',desc:'Take your HTML from Lesson 1 and add a complete stylesheet.',items:['Create style.css with reset, body font, and background colour','Style header: dark bg, flexbox space-between, logo on left, nav links on right with hover effect','Build sidebar + main with display:flex — sidebar 240px, main flex:1','Style product cards: white bg, border, border-radius, box-shadow, hover translateY(-4px)','Add an absolute-positioned red discount badge on each card','BONUS: position:sticky on header + position:fixed cart button at bottom-right corner']},
+  },
+
+  3:{
+    title:'JavaScript Essentials', sub:'Variables, DOM, Events & Functions',
+    icon:'⚡', color:'#34D399', merges:'Module 3',
+    concepts:[
+      {h:'Variables & Data Types',b:'<code>let</code> — can be reassigned. <code>const</code> — fixed value (use for prices, tax rates). Data types: String (<code>"Headphones"</code>), Number (<code>49.99</code>), Boolean (<code>true/false</code>), Array (<code>["a","b","c"]</code>). Name with camelCase. Template literals are cleaner than concatenation: <code>`Total: $${price * qty}`</code> vs <code>"Total: $" + (price*qty)</code>.'},
+      {h:'Functions',b:'Functions are reusable code blocks. <code>function addToCart(name, price) { return name + " added"; }</code>. Arrow functions: <code>const format = (p) => `$${p.toFixed(2)}`</code>. Use <code>return</code> to pass a value back. Call with <code>addToCart("Phone", 299)</code>. <code>console.log(value)</code> prints to DevTools — your best debugging tool.'},
+      {h:'The DOM — Reading & Changing HTML',b:'The DOM is JavaScript\'s view of the HTML page. Key methods: <code>document.getElementById("id")</code>, <code>document.querySelector(".class")</code>, <code>document.querySelectorAll(".class")</code> (returns a list). Change content: <code>el.innerText = "new"</code>. Change style: <code>el.style.display = "none"</code>. Classes: <code>el.classList.add("active")</code>, <code>el.classList.remove("x")</code>, <code>el.classList.toggle("x")</code>.'},
+      {h:'Events',b:'<code>element.addEventListener("click", myFn)</code> is preferred over <code>onclick=""</code> — it keeps HTML clean. Common events: <code>"click"</code>, <code>"input"</code> (fires on every keystroke), <code>"submit"</code> (form submitted), <code>"mouseover"</code>. Read an input\'s value: <code>parseInt(document.getElementById("qty").value)</code>. Validate: <code>if (isNaN(qty) || qty &lt; 1) { alert(...); return; }</code>.'},
+    ],
+    sheet:[
+      {title:'📦 Variables & Types',items:[['let x = 5','Reassignable variable'],['const TAX = 0.09','Fixed constant'],['typeof x','Check data type'],['parseInt("3")','String → integer'],['parseFloat("3.5")','String → decimal'],['x.toFixed(2)','Format to 2 decimal places'],['`Hello ${name}`','Template literal'],['isNaN(x)','Check if not a number']]},
+      {title:'🔢 Operators',items:[['+ - * /','Arithmetic'],['%','Remainder (modulo)'],['===','Strictly equal'],['!==','Not equal'],['> >= < <=','Comparison'],['&&','AND (both must be true)'],['||','OR (either can be true)'],['!x','NOT (reverse boolean)']]},
+      {title:'🔍 DOM Selection',items:[['getElementById("id")','Find by id attribute'],['querySelector(".cls")','Find first CSS match'],['querySelectorAll(".cls")','Find all CSS matches'],['element.innerText','Get or set text content'],['element.innerHTML','Get or set HTML content'],['element.value','Get input field value'],['element.src','Get or set image src'],['element.href','Get or set link href']]},
+      {title:'🎛️ DOM Manipulation',items:[['el.style.color = "red"','Change a CSS property'],['el.classList.add("x")','Add a CSS class'],['el.classList.remove("x")','Remove a CSS class'],['el.classList.toggle("x")','Toggle a CSS class'],['el.style.display = "none"','Hide element'],['el.style.display = "block"','Show element'],['setTimeout(fn, 2000)','Run fn after 2 seconds'],['console.log(x)','Print to DevTools console']]},
+    ],
+    starter:`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JS Cart Demo</title>
+<style>
+  body { font-family: Arial; padding: 24px; background: #f8fafc; }
+  .card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; max-width: 380px; }
+  h2 { font-size: 20px; color: #0f172a; margin-bottom: 12px; }
+  .price { font-size: 24px; font-weight: bold; color: #0f172a; margin: 8px 0; }
+  .qty-row { display: flex; align-items: center; gap: 12px; margin: 14px 0; }
+  .qty-row label { font-size: 14px; color: #64748b; }
+  input[type=number] { width: 65px; padding: 7px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 16px; text-align: center; }
+  button { padding: 11px 22px; background: #38bdf8; color: #0f172a; border: none; border-radius: 9px; font-size: 15px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+  button:hover { background: #0ea5e9; color: white; }
+  #msg { margin-top: 12px; padding: 10px 14px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; color: #16a34a; font-weight: bold; display: none; }
+  #totalBox { margin-top: 16px; padding: 14px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; }
+  .cart-badge { display: inline-block; background: #ef4444; color: white; border-radius: 50%; width: 24px; height: 24px; text-align: center; line-height: 24px; font-size: 13px; margin-left: 4px; }
+</style>
+</head>
+<body>
+
+  <h2>🛒 Cart (<span id="cartCount">0</span> items<span class="cart-badge" id="cartBadge">0</span>)</h2>
+
+  <div class="card">
+    <h2>Wireless Headphones</h2>
+    <div class="price">$49.99</div>
+
+    <div class="qty-row">
+      <label for="qtyInput">Quantity:</label>
+      <input type="number" id="qtyInput" value="1" min="1" max="99">
+    </div>
+
+    <button id="addBtn">Add to Cart</button>
+    <div id="msg"></div>
+  </div>
+
+  <div id="totalBox" style="display:none"></div>
+
+  <script>
+    let cartCount = 0;
+    let cartTotal = 0;
+    const PRICE = 49.99;
+
+    document.getElementById("addBtn").addEventListener("click", function() {
+      // 1. Read quantity
+      const qty = parseInt(document.getElementById("qtyInput").value);
+
+      // 2. Validate
+      if (qty < 1 || isNaN(qty)) {
+        alert("Please enter a valid quantity!");
+        return;
+      }
+
+      // 3. Update cart data
+      cartCount += qty;
+      cartTotal += PRICE * qty;
+
+      // 4. Update the DOM
+      document.getElementById("cartCount").innerText = cartCount;
+      document.getElementById("cartBadge").innerText = cartCount;
+
+      // 5. Show confirmation message
+      const msg = document.getElementById("msg");
+      msg.innerText = "✓ " + qty + "× Headphones added! (" + qty + " × $" + PRICE.toFixed(2) + ")";
+      msg.style.display = "block";
+      setTimeout(() => { msg.style.display = "none"; }, 2500);
+
+      // 6. Show running total
+      const box = document.getElementById("totalBox");
+      box.style.display = "block";
+      box.innerHTML = "<strong>Cart Total: $" + cartTotal.toFixed(2) + "</strong> · " + cartCount + " items";
+    });
+  <\/script>
+
+</body>
+</html>`,
+    taskTitle:'Build the Interactive Cart Counter',
+    tasks:['Declare let cartCount = 0 and let cartTotal = 0 at the top of your script','Add addEventListener("click") to the Add to Cart button (not onclick in HTML)','Read the quantity: parseInt(document.getElementById("qtyInput").value)','Validate: if qty < 1 or isNaN(qty), show an alert and return early','Increment cartCount by qty and add PRICE * qty to cartTotal','Update cartCount span and badge using innerText, then show confirmation msg for 2.5s'],
+    quiz:[
+      {q:'What does document.getElementById("qty").value return?',o:["The element's CSS style","The value typed into the input field","The element's id attribute","The number of children"],a:1},
+      {q:'Which checks strict equality in JavaScript?',o:['=','==','===','equals()'],a:2},
+      {q:'What does element.classList.toggle("active") do?',o:['Permanently adds "active"','Removes all classes','Adds if missing, removes if present','Returns true/false only'],a:2},
+      {q:'Result of: "Price: $" + (49.99 * 2).toFixed(2)',o:['"Price: $99.98"','"Price: $100"','TypeError','NaN'],a:0},
+    ],
+    hw:{lvl:'medium',title:'Build the Cart System in app.js',desc:'Add full JavaScript interactivity to your ConnecTech pages.',items:['Create app.js. Declare: let cart = [], cartCount = 0, cartTotal = 0','Write addToCart(id, name, price, qty) — push {id,name,price,qty} to cart, update count & total','Write updateCartBadge() — updates the header cart count span using innerText','Show a "✓ Added!" confirmation div that auto-hides after 2.5s using setTimeout','Wire each "Add to Cart" button using addEventListener — NOT onclick attributes in HTML','Write clearCart() that empties cart array and resets count/total to zero','BONUS: Save cart to localStorage on every change using JSON.stringify']},
+  },
+
+  4:{
+    title:'Navigation & Multi-Page Sites', sub:'Links, Active States, URL Params & localStorage',
+    icon:'🔗', color:'#FB923C', merges:'Module 4',
+    concepts:[
+      {h:'Linking Pages Together',b:'Use <code>&lt;a href="products.html"&gt;</code> for HTML navigation. Relative paths work within the same folder. JS navigation: <code>window.location.href = "cart.html"</code>. Back button: <code>window.history.back()</code>. Delayed redirect: <code>setTimeout(() => window.location.href = "thanks.html", 2000)</code>. Open in new tab: <code>target="_blank" rel="noopener"</code>.'},
+      {h:'Active Nav State',b:'Auto-highlight the current page\'s nav link. Get the current filename: <code>window.location.pathname.split("/").pop() || "index.html"</code>. Loop all nav links with <code>querySelectorAll(".c-nav__link").forEach(link => {...})</code>. Compare <code>link.getAttribute("href").split("/").pop()</code> to current page. Add <code>classList.add("active")</code> if it matches.'},
+      {h:'URL Parameters',b:'Pass data between pages via the URL: navigate to <code>product.html?id=42</code>. On product.html, read it: <code>const params = new URLSearchParams(window.location.search); const id = params.get("id")</code>. Find the matching product: <code>products.find(p => p.id === parseInt(id))</code>. If not found, redirect to products.html.'},
+      {h:'localStorage — Persistent Cart',b:'localStorage stores string key-value pairs that survive page reload. Always convert arrays/objects: <code>localStorage.setItem("cart", JSON.stringify(cart))</code>. Read back: <code>const saved = localStorage.getItem("cart"); return saved ? JSON.parse(saved) : []</code>. Run <code>loadCart()</code> on every page load. Run <code>saveCart(cart)</code> after every cart change.'},
+    ],
+    sheet:[
+      {title:'🔗 Navigation',items:[['href="page.html"','Go to a page'],['href="#section-id"','Jump to section on page'],['window.location.href = "url"','Navigate with JS'],['window.history.back()','Browser back button'],['target="_blank"','Open in new tab'],['setTimeout(fn, 2000)','Navigate after 2 second delay'],['location.reload()','Reload current page'],['location.pathname','Full path e.g. /products.html']]},
+      {title:'🎯 Active State',items:[['location.pathname','Full URL path'],['path.split("/").pop()','Get filename only'],['|| "index.html"','Default if root URL'],['querySelectorAll(".link")','All nav links'],['link.getAttribute("href")','Read href value'],['link.href vs getAttribute','getAttribute is safer'],['classList.add("active")','Mark as active'],['classList.remove("active")','Remove from others']]},
+      {title:'🔑 URL Params',items:[['?id=42&color=blue','URL query string format'],['window.location.search','Get "?id=42" string'],['new URLSearchParams(...)','Create parser object'],['params.get("id")','Read "id" value (string)'],['parseInt(id)','Convert to number'],['products.find(fn)','Lookup by id in array'],['if (!product) { redirect }','Handle missing product'],['document.title = product.name','Update tab title']]},
+      {title:'💾 localStorage',items:[['setItem(key, val)','Save a string'],['getItem(key)','Read a string (null if missing)'],['removeItem(key)','Delete one key'],['clear()','Wipe ALL storage'],['JSON.stringify(arr)','Array/object → string'],['JSON.parse(str)','String → array/object'],['saved ? parse : []','Safe read with fallback'],['DevTools → Application tab','Inspect localStorage']]},
+    ],
+    starter:`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Navigation Demo</title>
+<style>
+  body { font-family: Arial; margin: 0; background: #f8fafc; }
+  nav { background: #0f172a; padding: 14px 24px; display: flex; gap: 6px; align-items: center; }
+  nav a { color: #94a3b8; text-decoration: none; font-size: 14px; padding: 7px 14px; border-radius: 8px; transition: all 0.15s; border-bottom: 2px solid transparent; }
+  nav a:hover { color: white; background: rgba(255,255,255,0.07); }
+  nav a.active { color: white; border-bottom-color: #38bdf8; }
+  .page { padding: 32px; }
+  h2 { font-size: 20px; color: #0f172a; margin-bottom: 16px; }
+  .btn { padding: 10px 20px; background: #38bdf8; color: #0f172a; border: none; border-radius: 9px; font-size: 14px; font-weight: bold; cursor: pointer; margin: 5px; }
+  .cartBox { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-top: 18px; }
+  .cartRow { display: flex; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+  .cartTotal { margin-top: 12px; font-weight: bold; font-size: 16px; color: #0f172a; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="active" id="nav-home">Home</a>
+  <a href="#" id="nav-products">Products</a>
+  <a href="#" id="nav-cart">Cart (<span id="navCartCount">0</span>)</a>
+</nav>
+
+<div class="page">
+  <h2>🛒 Add Products & View Cart</h2>
+
+  <button class="btn" onclick="addProduct('Wireless Headphones', 49.99)">Add Headphones $49.99</button>
+  <button class="btn" onclick="addProduct('Smartphone Pro', 299)">Add Smartphone $299</button>
+  <button class="btn" onclick="addProduct('Ultrabook Slim', 899)">Add Laptop $899</button>
+  <button class="btn" style="background:#ef4444;color:white" onclick="clearCart()">Clear Cart</button>
+
+  <div class="cartBox">
+    <strong>Cart (persists across page reloads!):</strong>
+    <div id="cartItems"><em style="color:#94a3b8">Empty cart.</em></div>
+    <div class="cartTotal" id="cartTotal"></div>
+  </div>
+</div>
+
+<script>
+  // ── localStorage cart helpers ──────────────
+  function loadCart() {
+    const saved = localStorage.getItem("demoCartL4");
+    return saved ? JSON.parse(saved) : [];
+  }
+  function saveCart(cart) {
+    localStorage.setItem("demoCartL4", JSON.stringify(cart));
+  }
+
+  // ── Add product (with duplicate merging) ──
+  function addProduct(name, price) {
+    const cart = loadCart();
+    const existing = cart.find(i => i.name === name);
+    if (existing) {
+      existing.qty += 1;
+    } else {
+      cart.push({ name, price, qty: 1 });
+    }
+    saveCart(cart);
+    renderCart();
+  }
+
+  // ── Render cart from localStorage ─────────
+  function renderCart() {
+    const cart = loadCart();
+    const container = document.getElementById("cartItems");
+    const totalEl = document.getElementById("cartTotal");
+    document.getElementById("navCartCount").innerText = cart.reduce((s,i) => s + i.qty, 0);
+
+    if (cart.length === 0) {
+      container.innerHTML = '<em style="color:#94a3b8">Empty cart.</em>';
+      totalEl.innerText = "";
+      return;
+    }
+
+    container.innerHTML = cart.map((item, idx) => \`
+      <div class="cartRow">
+        <span style="flex:1">\${item.name}</span>
+        <span>x\${item.qty}</span>
+        <span style="min-width:70px;text-align:right">$\${(item.price * item.qty).toFixed(2)}</span>
+        <button onclick="removeItem(\${idx})" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:16px">✕</button>
+      </div>
+    \`).join("");
+
+    const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    totalEl.innerText = "Total: $" + total.toFixed(2);
+  }
+
+  function removeItem(idx) {
+    const cart = loadCart();
+    cart.splice(idx, 1);
+    saveCart(cart);
+    renderCart();
+  }
+
+  function clearCart() {
+    localStorage.removeItem("demoCartL4");
+    renderCart();
+  }
+
+  // ── Init ─────────────────────────────────
+  renderCart();
+<\/script>
+</body>
+</html>`,
+    taskTitle:'Build Multi-Page Navigation with Persistent Cart',
+    tasks:['Write setActiveNav() — reads window.location.pathname, loops .c-nav__link, adds "active" to matching link','Create products.html and cart.html — copy the shared header/footer from index.html','On products.html: clicking a card calls goToProduct(id) → sets window.location.href to product.html?id=X','On product.html: use new URLSearchParams(window.location.search).get("id") to read the id','Implement loadCart() and saveCart(cart) using localStorage + JSON.stringify/JSON.parse','On cart.html: call loadCart() on page load and render items with innerHTML using .map()'],
+    quiz:[
+      {q:'How do you read URL param "id" from product.html?id=5?',o:['window.params.get("id")','location.id','new URLSearchParams(window.location.search).get("id")','document.url.params("id")'],a:2},
+      {q:'Why use JSON.stringify() before saving an array to localStorage?',o:['localStorage needs lowercase','localStorage only stores strings — JSON converts arrays','JSON compresses data','Arrays cannot be stored at all'],a:1},
+      {q:'Which array method sums all prices in a cart?',o:['.map()','.filter()','.reduce()','.forEach()'],a:2},
+      {q:'What does window.location.pathname.split("/").pop() return?',o:['Full URL with domain','Just the domain','The filename e.g. "products.html"','The query string'],a:2},
+    ],
+    hw:{lvl:'medium',title:'Complete Multi-Page ConnecTech Site',desc:'Wire up navigation and the persistent cart across all four pages.',items:['setActiveNav() runs on every page and highlights the correct nav link automatically','Clicking a product card on products.html navigates to product.html?id=X','product.html reads the URL param, finds the product in the array, populates all page fields','Cart badge in header shows correct count on EVERY page (loaded from localStorage)','cart.html renders all cart items dynamically from localStorage with renderCart()','BONUS: Add a "Back to Products" button on product.html using window.history.back()']},
+  },
+
+  5:{
+    title:'Building the Store Pages', sub:'Home Page, Slider & Product Grid with Filter & Sort',
+    icon:'🛍️', color:'#F472B6', merges:'Modules 6 & 7',
+    concepts:[
+      {h:'Products Data Array',b:'Store all products as a JS array of objects: <code>const products = [{id:1, name:"Headphones", price:49.99, original:79.99, category:"audio", emoji:"🎧"}, ...]</code>. Calculate discount %: <code>Math.round((1 - price / original) * 100)</code>. This single array is the source of truth — all pages read from it.'},
+      {h:'Rendering with .map() & innerHTML',b:'Transform data into HTML: <code>grid.innerHTML = products.map(p => `&lt;article&gt;${p.name}&lt;/article&gt;`).join("")</code>. The <code>.map()</code> converts each object into an HTML string. <code>.join("")</code> merges them. Stop inner button clicks from triggering outer card clicks with <code>event.stopPropagation()</code> on the button.'},
+      {h:'Product Slider',b:'Horizontal scroll container: set the track to <code>display:flex; overflow-x:auto; scroll-behavior:smooth;</code>. Give each card <code>flex-shrink:0; width:200px;</code> so they never compress. Hide the scrollbar cleanly: <code>scrollbar-width:none</code> (Firefox) and <code>::-webkit-scrollbar { display:none }</code> (Chrome).'},
+      {h:'Filter & Sort',b:'Filter by category: <code>products.filter(p => p.category === cat)</code>. Sort by price: <code>[...products].sort((a,b) => a.price - b.price)</code>. Always spread first <code>[...arr]</code> to avoid mutating the original. To combine: filter first, then sort the filtered result. Call <code>renderProducts()</code> after every filter or sort change.'},
+    ],
+    sheet:[
+      {title:'📊 Array Methods',items:[['.map(fn)','Transform each item into something new'],['.filter(fn)','Keep only items where fn returns true'],['.find(fn)','Return first match (or undefined)'],['.sort((a,b) => a-b)','Sort ascending by value'],['.sort((a,b) => b-a)','Sort descending by value'],['.reduce((sum,i)=>sum+i,0)','Accumulate a total'],['[...arr]','Copy array before sort/mutate'],['.join("")','Merge array of strings to one string']]},
+      {title:'🔄 Dynamic Rendering',items:[['el.innerHTML = str','Replace element contents with HTML'],['arr.map(item => `...`)','One HTML string per item'],['.join("")','Merge into a single string'],['event.stopPropagation()','Stop event bubbling to parent'],['querySelectorAll(".btn")','Find all matching elements'],['classList.add/remove("active")','Toggle active state'],['el.innerText = count','Update badge number'],['Math.round(n)','Round to nearest integer']]},
+      {title:'🔍 Filter & Sort Patterns',items:[['filter(p => p.cat === x)','By exact category match'],['filter(p => p.name.toLowerCase().includes(q))','Search by name'],['.sort((a,b) => a.price - b.price)','Price: low → high'],['.sort((a,b) => b.price - a.price)','Price: high → low'],['getDiscount(a) vs getDiscount(b)','Sort by discount %'],['activeCategory = "all"','Reset to show everything'],['select onchange','Re-render on dropdown change'],['btn.classList.add("active")','Highlight active filter']]},
+      {title:'📐 Slider CSS',items:[['display: flex','Row of cards'],['overflow-x: auto','Enable horizontal scroll'],['scroll-behavior: smooth','Smooth JS scroll'],['flex-shrink: 0','Cards keep their width'],['scrollbar-width: none','Hide scrollbar (Firefox)'],['&::-webkit-scrollbar { display:none }','Hide scrollbar (Chrome)'],['padding-bottom: 8px','Room for scrollbar'],['gap: 16px','Space between cards']]},
+    ],
+    starter:`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ConnecTech — Products</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial; background: #f8fafc; }
+  .c-header { background: #0f172a; color: white; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+  .c-header nav a { color: #94a3b8; text-decoration: none; margin-left: 18px; font-size: 14px; transition: color 0.2s; }
+  .c-header nav a:hover { color: #38bdf8; }
+  .filterBar { background: white; border-bottom: 1px solid #e2e8f0; padding: 12px 24px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .fBtn { padding: 6px 14px; border: 1px solid #e2e8f0; border-radius: 20px; background: white; cursor: pointer; font-size: 13px; transition: all 0.15s; }
+  .fBtn:hover, .fBtn.active { background: #0f172a; color: white; border-color: #0f172a; }
+  .sortSel { margin-left: auto; padding: 6px 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 13px; cursor: pointer; }
+  .c-content { padding: 24px; }
+  .pageTitle { font-size: 20px; color: #0f172a; margin-bottom: 18px; }
+  .c-product-grid { display: flex; flex-wrap: wrap; gap: 14px; }
+  .c-product-card { width: 185px; background: white; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; position: relative; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+  .c-product-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.10); }
+  .c-badge { position: absolute; top: 8px; right: 8px; background: #ef4444; color: white; font-size: 11px; font-weight: bold; padding: 2px 7px; border-radius: 20px; }
+  .cardImg { height: 130px; display: flex; align-items: center; justify-content: center; font-size: 48px; }
+  .cardBody { padding: 11px; }
+  .cardName { font-size: 13px; font-weight: 500; color: #0f172a; margin-bottom: 5px; }
+  .priceRow { display: flex; align-items: center; gap: 6px; }
+  .priceNow { font-weight: bold; font-size: 15px; }
+  .priceWas { font-size: 12px; color: #94a3b8; text-decoration: line-through; }
+  .cardBtn { width: 100%; margin-top: 9px; padding: 7px; background: #0f172a; color: white; border: none; border-radius: 7px; font-size: 12px; cursor: pointer; transition: background 0.2s; }
+  .cardBtn:hover { background: #38bdf8; color: #0f172a; }
+  #cartBadge { background: #ef4444; color: white; border-radius: 50%; padding: 1px 7px; font-size: 12px; margin-left: 3px; }
+</style>
+</head>
+<body>
+
+<header class="c-header">
+  <div style="font-weight:bold;font-size:18px">ConnecTech</div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Products</a>
+    <a href="#">Cart<span id="cartBadge">0</span></a>
+  </nav>
+</header>
+
+<div class="filterBar">
+  <button class="fBtn active" onclick="filterBy('all',this)">All</button>
+  <button class="fBtn" onclick="filterBy('phones',this)">📱 Phones</button>
+  <button class="fBtn" onclick="filterBy('laptops',this)">💻 Laptops</button>
+  <button class="fBtn" onclick="filterBy('audio',this)">🎧 Audio</button>
+  <button class="fBtn" onclick="filterBy('accessories',this)">⌨️ Accessories</button>
+  <select class="sortSel" id="sortSel" onchange="renderProducts()">
+    <option value="">Sort: Default</option>
+    <option value="price-asc">Price: Low → High</option>
+    <option value="price-desc">Price: High → Low</option>
+    <option value="discount">Biggest Discount</option>
+  </select>
+</div>
+
+<div class="c-content">
+  <h1 class="pageTitle" id="pageTitle">All Products</h1>
+  <div class="c-product-grid" id="productGrid"></div>
+</div>
+
+<script>
+  const products = [
+    {id:1,  name:"Wireless Headphones",  price:49.99,  original:79.99,  category:"audio",       emoji:"🎧", bg:"#DBEAFE"},
+    {id:2,  name:"Smartphone Pro Max",   price:299,    original:399,    category:"phones",      emoji:"📱", bg:"#DCFCE7"},
+    {id:3,  name:"Ultrabook Slim 14",    price:899,    original:1199,   category:"laptops",     emoji:"💻", bg:"#FEF3C7"},
+    {id:4,  name:"Bluetooth Speaker",   price:39.99,  original:59.99,  category:"audio",       emoji:"🔊", bg:"#F0FDF4"},
+    {id:5,  name:"Gaming Laptop Pro",   price:1299,   original:1799,   category:"laptops",     emoji:"🎮", bg:"#FAF5FF"},
+    {id:6,  name:"Budget Smartphone",   price:149,    original:199,    category:"phones",      emoji:"📲", bg:"#FFF7ED"},
+    {id:7,  name:"Mechanical Keyboard", price:129,    original:179,    category:"accessories", emoji:"⌨️", bg:"#F1F5F9"},
+    {id:8,  name:"Wireless Charger",    price:29.99,  original:39.99,  category:"accessories", emoji:"🔋", bg:"#ECFDF5"},
+  ];
+
+  let activeCategory = "all";
+  let localCart = JSON.parse(localStorage.getItem("ct-cart") || "[]");
+
+  function getDiscount(price, orig) {
+    return Math.round((1 - price / orig) * 100);
+  }
+
+  function filterBy(cat, btn) {
+    activeCategory = cat;
+    document.querySelectorAll(".fBtn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    renderProducts();
+  }
+
+  function renderProducts() {
+    let list = activeCategory === "all" ? [...products] : products.filter(p => p.category === activeCategory);
+
+    const sort = document.getElementById("sortSel").value;
+    if (sort === "price-asc")  list.sort((a,b) => a.price - b.price);
+    if (sort === "price-desc") list.sort((a,b) => b.price - a.price);
+    if (sort === "discount")   list.sort((a,b) => getDiscount(b.price,b.original) - getDiscount(a.price,a.original));
+
+    const label = activeCategory === "all" ? "All" : activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1);
+    document.getElementById("pageTitle").innerText = label + " Products (" + list.length + ")";
+
+    document.getElementById("productGrid").innerHTML = list.map(p => \`
+      <div class="c-product-card" onclick="alert('Navigate to product.html?id=' + \${p.id})">
+        <span class="c-badge">-\${getDiscount(p.price, p.original)}%</span>
+        <div class="cardImg" style="background:\${p.bg}">\${p.emoji}</div>
+        <div class="cardBody">
+          <div class="cardName">\${p.name}</div>
+          <div class="priceRow">
+            <span class="priceNow">$\${p.price}</span>
+            <span class="priceWas">$\${p.original}</span>
+          </div>
+          <button class="cardBtn" onclick="event.stopPropagation(); addToCart(\${p.id})">Add to Cart</button>
+        </div>
+      </div>
+    \`).join("");
+  }
+
+  function addToCart(id) {
+    const p = products.find(x => x.id === id);
+    const existing = localCart.find(i => i.id === id);
+    if (existing) existing.qty++;
+    else localCart.push({...p, qty: 1});
+    localStorage.setItem("ct-cart", JSON.stringify(localCart));
+    document.getElementById("cartBadge").innerText = localCart.reduce((s,i) => s+i.qty, 0);
+  }
+
+  // Init
+  document.getElementById("cartBadge").innerText = localCart.reduce((s,i) => s+i.qty, 0);
+  renderProducts();
+<\/script>
+</body>
+</html>`,
+    taskTitle:'Build Home & Products Pages from Data',
+    tasks:['Define products array in app.js (min 8 items, 3+ categories, each with id/name/price/original/category)','Write getDiscount(price, original) → Math.round((1-price/original)*100)','Write renderProducts(category) using .filter() and .map() to build innerHTML','Wire category filter buttons — each calls filterBy(cat, btnEl) and re-renders the grid','Add sort dropdown — re-runs renderProducts with [...products].sort() by price or discount','Add event.stopPropagation() on the Add to Cart button inside each clickable card'],
+    quiz:[
+      {q:'Why use flex-shrink: 0 on product cards inside a slider?',o:['Makes cards grow to fill space','Prevents cards shrinking below their set width','Adds a flex border around cards','Hides overflowing content'],a:1},
+      {q:'Which array method creates a filtered array without changing the original?',o:['.map()','.sort()','.filter()','.forEach()'],a:2},
+      {q:'What does event.stopPropagation() on the cart button inside a card do?',o:['Removes click from button','Prevents click from also triggering the parent card click','Stops page from refreshing','Cancels the add to cart action'],a:1},
+      {q:'Why use [...products].sort() instead of products.sort()?',o:['They are identical','Spread creates a copy so the original array is not mutated','Spread is faster','products.sort() only works on strings'],a:1},
+    ],
+    hw:{lvl:'hard',title:'Complete Home & Products Pages',desc:'Build both store pages driven entirely from your JS data array.',items:['Home page: sticky header, category sidebar, Hot Sales horizontal slider (6+ cards), New Arrivals grid (8+ cards)','All content rendered from a JS data array (min 8 products, 3+ categories, in app.js)','Category filter: clicking a category rerenders the grid showing only matching products','Sort dropdown: price low→high, price high→low, biggest discount — all three working correctly','Cart badge in header updates correctly on every page when "Add to Cart" is clicked','BONUS: Real-time search input — filters products by name as user types using .filter() + .includes()']},
+  },
+
+  6:{
+    title:'Product Detail & Final Assembly', sub:'Detail Page, Cart Management & Connecting Everything',
+    icon:'🛒', color:'#FBBF24', merges:'Module 8',
+    concepts:[
+      {h:'Product Detail Page Layout',b:'Two-column layout: <code>.c-product-detail { display:flex; gap:40px; }</code>. Left: <code>.c-thumbnail { width:30%; flex-shrink:0; }</code>. Right: <code>.c-product-info { flex:1; }</code>. Show: product name (large, custom font), current price (big + bold), original price (grey + line-through), discount badge (coloured), quantity number input (min="1"), and a prominent Add to Cart button.'},
+      {h:'Loading Product by URL Param',b:'On page load: <code>const id = parseInt(new URLSearchParams(location.search).get("id"))</code>. Find product: <code>const p = products.find(x => x.id === id)</code>. If not found, redirect with <code>location.href = "products.html"</code>. Then populate: <code>document.getElementById("productName").innerText = p.name</code>, set price, original, discount badge, image. Also set <code>document.title = p.name + " — ConnecTech"</code>.'},
+      {h:'Cart Page — Render & Actions',b:'On cart.html, load the cart and render each row: product image/emoji, name, unit price, quantity input (editable), subtotal, remove button. <code>updateQty(i, val)</code>: read <code>cart[i].qty = Math.max(1, parseInt(val))</code>, save, re-render. <code>removeItem(i)</code>: use <code>cart.splice(i,1)</code>, save, re-render. Show a running total with <code>cart.reduce((sum,i) => sum + i.price * i.qty, 0).toFixed(2)</code>.'},
+      {h:'Merging Duplicates & Validation',b:'Before pushing to cart, check if product exists: <code>const existing = cart.find(i => i.id === product.id)</code>. If found: <code>existing.qty += qty</code>. If not: <code>cart.push({...product, qty})</code>. Always validate the quantity input: <code>if (qty < 1 || isNaN(qty)) { alert(...); return; }</code>. Show a timed confirmation message using <code>setTimeout(() => el.style.display="none", 2500)</code>.'},
+    ],
+    sheet:[
+      {title:'📄 Product Detail CSS',items:[['display: flex; gap: 40px','Two-column layout'],['width: 30%; flex-shrink: 0','Left thumbnail column'],['flex: 1','Right info fills remaining space'],['font-size: 28px; font-weight: 700','Large product name'],['text-decoration: line-through','Strike through original price'],['color: #94A3B8','Grey out original price'],['type="number" min="1" max="99"','Validated quantity input'],['position: absolute; top:8px; right:8px','Discount badge placement']]},
+      {title:'🔄 Cart Operations',items:[['cart.find(i => i.id===id)','Check if item already in cart'],['existing.qty += qty','Merge duplicate — don\'t double-add'],['cart.push({...product, qty})','Add new item with spread'],['cart.splice(index, 1)','Remove 1 item at index'],['cart[i].qty = Math.max(1, val)','Update qty with minimum of 1'],['saveCart(cart)','Always save after any change'],['reduce((s,i)=>s+i.p*i.q, 0)','Calculate cart total'],['toFixed(2)','Format price to 2 decimals']]},
+      {title:'🧪 Validation & UX',items:[['parseInt(input.value)','Read input as integer'],['isNaN(qty)','True if value is not a number'],['qty < 1','Check for invalid quantity'],['alert("message")','Simple validation feedback'],['el.style.display = "block"','Show confirmation message'],['setTimeout(fn, 2500)','Auto-hide after 2.5 seconds'],['document.title = name','Update browser tab title'],['location.href = "products.html"','Redirect if product not found']]},
+      {title:'✅ Final Checklist',items:[['setActiveNav()','Runs on all pages (shared app.js)'],['loadCart() on load','Runs on all pages'],['updateCartBadge()','Runs after every cart change'],['loadProductPage()','Runs on product.html only'],['renderCart()','Runs on cart.html only'],['renderProducts()','Runs on products.html only'],['F12 → Console','Check for red errors'],['Full flow test','Home → Products → Detail → Cart → Remove']]},
+    ],
+    starter:`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Product — ConnecTech</title>
+<link href="https://fonts.googleapis.com/css2?family=Vidaloka&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial; background: #f8fafc; }
+  .c-header { background: #0f172a; color: white; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .c-header a { color: #94a3b8; text-decoration: none; font-size: 14px; margin-left: 16px; }
+  .c-header a:hover { color: #38bdf8; }
+  .c-product-detail { display: flex; gap: 40px; padding: 36px; max-width: 920px; margin: 0 auto; }
+  .c-thumbnail { width: 30%; flex-shrink: 0; }
+  .c-thumbnail .imgBox { width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 90px; border: 1px solid #e2e8f0; }
+  .c-product-info { flex: 1; }
+  .c-product-info h1 { font-family: 'Vidaloka', serif; font-size: 27px; color: #0f172a; margin-bottom: 14px; }
+  .priceRow { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  .priceCurrent { font-size: 30px; font-weight: 700; color: #0f172a; }
+  .priceOriginal { font-size: 17px; color: #94a3b8; text-decoration: line-through; }
+  .priceBadge { background: #ef4444; color: white; padding: 3px 10px; border-radius: 6px; font-size: 13px; font-weight: bold; }
+  .qtyRow { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+  .qtyRow label { font-size: 14px; color: #64748b; }
+  .qtyRow input { width: 72px; padding: 9px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 17px; text-align: center; }
+  .addBtn { background: #0f172a; color: white; border: none; padding: 14px 34px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+  .addBtn:hover { background: #38bdf8; color: #0f172a; transform: translateY(-1px); }
+  #addMsg { margin-top: 14px; padding: 11px 16px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 9px; color: #16a34a; font-weight: bold; display: none; }
+
+  /* Cart section */
+  .cartSection { padding: 0 36px 36px; max-width: 920px; margin: 0 auto; }
+  .cartSection h2 { font-size: 18px; color: #0f172a; margin-bottom: 14px; }
+  .cartRow { background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; font-size: 14px; }
+  .cartEmoji { font-size: 32px; flex-shrink: 0; }
+  .cartInfo { flex: 1; }
+  .cartInfo h4 { font-size: 14px; color: #0f172a; }
+  .cartInfo p { font-size: 12px; color: #64748b; }
+  .cartQty { width: 55px; padding: 5px; border: 1px solid #e2e8f0; border-radius: 6px; text-align: center; font-size: 14px; }
+  .cartSubtotal { font-weight: bold; min-width: 70px; text-align: right; }
+  .removeBtn { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 18px; padding: 4px; }
+  .cartTotalBox { background: #0f172a; color: white; border-radius: 10px; padding: 18px 22px; margin-top: 14px; display: flex; align-items: center; justify-content: space-between; }
+  .cartTotalBox strong { font-size: 18px; }
+  .cartTotalBox span { color: #38bdf8; font-size: 22px; font-weight: bold; }
+  .clearBtn { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; }
+  .emptyMsg { padding: 20px; text-align: center; color: #94a3b8; font-size: 15px; }
+</style>
+</head>
+<body>
+
+<header class="c-header">
+  <div style="font-weight:bold;font-size:18px">ConnecTech</div>
+  <nav>
+    <a href="#">← Products</a>
+    <a href="#">🛒 Cart (<span id="cartBadge">0</span>)</a>
+  </nav>
+</header>
+
+<!-- Product Detail -->
+<div class="c-product-detail">
+  <div class="c-thumbnail">
+    <div class="imgBox" id="productEmoji">🎧</div>
+  </div>
+  <div class="c-product-info">
+    <h1 id="productName">Wireless Headphones</h1>
+    <div class="priceRow">
+      <span class="priceCurrent" id="productPrice">$49.99</span>
+      <span class="priceOriginal" id="productOriginal">$79.99</span>
+      <span class="priceBadge" id="productDiscount">-38%</span>
+    </div>
+    <div class="qtyRow">
+      <label for="qtyInput">Quantity:</label>
+      <input type="number" id="qtyInput" value="1" min="1" max="99">
+    </div>
+    <button class="addBtn" id="addBtn">🛒 Add to Cart</button>
+    <div id="addMsg"></div>
+  </div>
+</div>
+
+<!-- Cart -->
+<div class="cartSection">
+  <h2>🛒 Your Cart</h2>
+  <div id="cartItems"></div>
+  <div id="cartTotalBox"></div>
+</div>
+
+<script>
+  const products = [
+    {id:1, name:"Wireless Headphones", price:49.99, original:79.99, emoji:"🎧"},
+    {id:2, name:"Smartphone Pro Max",  price:299,   original:399,   emoji:"📱"},
+    {id:3, name:"Ultrabook Slim 14",   price:899,   original:1199,  emoji:"💻"},
+    {id:4, name:"Bluetooth Speaker",  price:39.99, original:59.99, emoji:"🔊"},
+  ];
+
+  function getDiscount(p, o) { return Math.round((1 - p/o) * 100); }
+  function loadCart() { return JSON.parse(localStorage.getItem("ct-final") || "[]"); }
+  function saveCart(c) { localStorage.setItem("ct-final", JSON.stringify(c)); }
+
+  // ── Add to cart with duplicate merging ──────────
+  document.getElementById("addBtn").addEventListener("click", () => {
+    const product = products[0]; // In real app: load by URL param
+    const qty = parseInt(document.getElementById("qtyInput").value);
+
+    if (qty < 1 || isNaN(qty)) {
+      alert("Please enter a valid quantity.");
+      return;
+    }
+
+    const cart = loadCart();
+    const existing = cart.find(i => i.id === product.id);
+    if (existing) {
+      existing.qty += qty;
+    } else {
+      cart.push({...product, qty});
+    }
+    saveCart(cart);
+
+    document.getElementById("cartBadge").innerText = cart.reduce((s,i)=>s+i.qty,0);
+    renderCart();
+
+    const msg = document.getElementById("addMsg");
+    msg.innerText = \`✓ \${qty}× \${product.name} added to cart!\`;
+    msg.style.display = "block";
+    setTimeout(() => msg.style.display = "none", 2500);
+  });
+
+  // ── Render cart ─────────────────────────────────
+  function renderCart() {
+    const cart = loadCart();
+    const items = document.getElementById("cartItems");
+    const totalBox = document.getElementById("cartTotalBox");
+
+    if (cart.length === 0) {
+      items.innerHTML = '<div class="emptyMsg">🛒 Your cart is empty.</div>';
+      totalBox.innerHTML = "";
+      return;
+    }
+
+    items.innerHTML = cart.map((item, i) => \`
+      <div class="cartRow">
+        <div class="cartEmoji">\${item.emoji}</div>
+        <div class="cartInfo">
+          <h4>\${item.name}</h4>
+          <p>$\${item.price} each</p>
+        </div>
+        <input class="cartQty" type="number" value="\${item.qty}" min="1"
+          onchange="updateQty(\${i}, this.value)">
+        <span class="cartSubtotal">$\${(item.price * item.qty).toFixed(2)}</span>
+        <button class="removeBtn" onclick="removeItem(\${i})">✕</button>
+      </div>
+    \`).join("");
+
+    const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    totalBox.innerHTML = \`
+      <div class="cartTotalBox">
+        <strong>Total: <span>$\${total.toFixed(2)}</span></strong>
+        <button class="clearBtn" onclick="clearCart()">Clear Cart</button>
+      </div>\`;
+  }
+
+  function updateQty(i, val) {
+    const cart = loadCart();
+    cart[i].qty = Math.max(1, parseInt(val) || 1);
+    saveCart(cart);
+    document.getElementById("cartBadge").innerText = cart.reduce((s,i)=>s+i.qty,0);
+    renderCart();
+  }
+
+  function removeItem(i) {
+    const cart = loadCart();
+    cart.splice(i, 1);
+    saveCart(cart);
+    document.getElementById("cartBadge").innerText = cart.reduce((s,i)=>s+i.qty,0);
+    renderCart();
+  }
+
+  function clearCart() {
+    localStorage.removeItem("ct-final");
+    document.getElementById("cartBadge").innerText = 0;
+    renderCart();
+  }
+
+  // Init
+  document.getElementById("cartBadge").innerText = loadCart().reduce((s,i)=>s+i.qty,0);
+  renderCart();
+<\/script>
+
+</body>
+</html>`,
+    taskTitle:'Complete Product Detail & Cart Pages',
+    tasks:['On product.html: read URL param id, find product in array, populate all DOM fields (name, price, original, discount, emoji)','Wire Add to Cart button: validate qty, check for duplicates (merge qty), save, show timed message','Build cart.html: renderCart() renders all items with qty input and remove button','Implement updateQty(i, val) — modifies cart[i].qty = Math.max(1, val), saves, re-renders','Implement removeItem(i) using splice(i,1), save, and re-render','Test the FULL flow: index → products → product → add → cart → update qty → remove → clear'],
+    quiz:[
+      {q:'What does [...products].sort(...) do differently from products.sort(...)?',o:['They are identical','Spread creates a copy so the original is not mutated','Spread makes sort faster','products.sort() only works on numbers'],a:1},
+      {q:'What does cart.find(item => item.id === product.id) return?',o:['true or false','The index number of the match','The matching cart item object, or undefined','All matching items in an array'],a:2},
+      {q:'Which method removes 1 element at a specific index?',o:['array.remove(i)','array.delete(i)','array.splice(i, 1)','array.filter(i)'],a:2},
+      {q:'What does cart.reduce((sum, item) => sum + item.price * item.qty, 0) return?',o:['The number of items in cart','The most expensive item','The total cart value','The last item\'s price'],a:2},
+    ],
+    hw:{lvl:'hard',title:'FINAL PROJECT — Complete ConnecTech Website',desc:'Tie all four pages into a complete, working e-commerce site.',items:['All 4 pages linked with correct active nav highlighting on every page','products.html: filter by category + sort — all driven from a JS data array (min 10 products)','product.html: loads by URL param, validates quantity, merges duplicates, shows timed feedback','cart.html: renders all items, editable qty per row, remove buttons, running total, clear cart','Cart persists in localStorage across all page reloads and navigation between pages','BONUS 1: Real-time search on products.html — filter by name as user types','BONUS 2: Simple checkout confirmation page with order summary and clear cart on submit']},
+  },
+};
+
+// ═══════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════
+const S = {
+  cur: 1, tab: 'learn',
+  done: new Set(),
+  tasks: Object.fromEntries(Object.keys(L).map(k=>[k, new Array(L[k].tasks.length).fill(false)])),
+  qa:   Object.fromEntries(Object.keys(L).map(k=>[k, {}])),
+  qs:   Object.fromEntries(Object.keys(L).map(k=>[k, 0])),
+};
+
+// ═══════════════════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════════════════
+function goLesson(n) {
+  S.cur = n; S.tab = 'learn';
+  document.querySelectorAll('.nitem').forEach(el => el.classList.remove('active'));
+  document.querySelector(`[data-l="${n}"]`).classList.add('active');
+  render(n);
+  window.scrollTo(0,0);
+}
+function nextLesson() { if(S.cur<6) goLesson(S.cur+1); }
+function prevLesson() { if(S.cur>1) goLesson(S.cur-1); }
+
+function goTab(t) {
+  S.tab = t;
+  document.querySelectorAll('.tab').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.tpanel').forEach(el=>el.classList.remove('active'));
+  document.getElementById(`t-${t}`)?.classList.add('active');
+  document.getElementById(`p-${t}`)?.classList.add('active');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════════════════════════
+function render(n) {
+  const l = L[n];
+  document.getElementById('tbarTitle').textContent = `Lesson ${n} — ${l.title}`;
+  document.getElementById('tbarSub').textContent = `⏱ 1.5 hours · ${l.sub}`;
+  document.getElementById('content').innerHTML = buildPage(n, l);
+  document.getElementById('runBtn')?.addEventListener('click', () => runCode(n));
+  document.getElementById('rstBtn')?.addEventListener('click', () => resetCode(n, l));
+}
+
+function buildPage(n, l) {
+  const done = S.done.has(n);
+  return `
+    ${done ? `<div class="doneBanner show"><h2>🎉 Lesson ${n} Complete!</h2><p>Great work — move to the next lesson or revisit the homework.</p></div>` : ''}
+    <div class="mod-hdr">
+      <div class="mod-icon" style="background:${l.color}22;border:1px solid ${l.color}44">${l.icon}</div>
+      <div>
+        <div class="mod-tag" style="color:${l.color}">Lesson ${String(n).padStart(2,'0')} · Merges: ${l.merges}</div>
+        <div class="mod-title">${l.title}</div>
+        <div class="mod-sub">${l.sub}</div>
+        <div class="chips">
+          <div class="chip">⏱ <span>1.5 hours</span></div>
+          <div class="chip">📚 <span>${l.concepts.length} concepts</span></div>
+          <div class="chip">🧠 <span>${l.quiz.length} quiz questions</span></div>
+          <div class="chip">🛠️ <span>${l.tasks.length} practice tasks</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="tabs">
+      <div class="tab active" id="t-learn"    onclick="goTab('learn')">📖 Learn</div>
+      <div class="tab"        id="t-sheet"    onclick="goTab('sheet')">📋 Cheatsheet</div>
+      <div class="tab"        id="t-practice" onclick="goTab('practice')">💻 Practice</div>
+      <div class="tab"        id="t-quiz"     onclick="goTab('quiz')">🧠 Quiz</div>
+      <div class="tab"        id="t-homework" onclick="goTab('homework')">📝 Homework</div>
+    </div>
+    <div class="tpanel active" id="p-learn">${buildLearn(n,l)}</div>
+    <div class="tpanel"        id="p-sheet">${buildSheet(n,l)}</div>
+    <div class="tpanel"        id="p-practice">${buildPractice(n,l)}</div>
+    <div class="tpanel"        id="p-quiz">${buildQuiz(n,l)}</div>
+    <div class="tpanel"        id="p-homework">${buildHW(n,l)}</div>`;
+}
+
+function buildLearn(n, l) {
+  return `
+    <div class="slbl">Core Concepts</div>
+    ${l.concepts.map(c => `<div class="ccard"><h3>${c.h}</h3><p>${c.b}</p></div>`).join('')}
+    <div class="tipbox info">💡 <strong>Tip:</strong> After reading each concept, switch to the Practice tab and try it in the live editor — theory sticks best when you type it yourself.</div>
+    <button class="btn btn-outline" onclick="goTab('sheet')" style="margin-top:4px">View Cheatsheet →</button>`;
+}
+
+function buildSheet(n, l) {
+  return `
+    <div class="slbl">Quick Reference</div>
+    <div class="csGrid">
+      ${l.sheet.map(s => `
+        <div class="csCard">
+          <h4 style="color:${l.color}">${s.title}</h4>
+          ${s.items.map(([code,desc]) => `
+            <div class="csRow"><span class="csCode">${code}</span><span class="csDesc">${desc}</span></div>
+          `).join('')}
+        </div>`).join('')}
+    </div>
+    <div class="tipbox info">💡 Keep this tab open while you code — it's your quick reference sheet.</div>`;
+}
+
+function buildPractice(n, l) {
+  const done = S.tasks[n].filter(Boolean).length;
+  const total = l.tasks.length;
+  const pct = total ? Math.round(done/total*100) : 0;
+  return `
+    <div class="taskHdr">
+      <h3>🛠️ ${l.taskTitle}</h3>
+      <p>Tick each task off as you complete it in the editor below.</p>
+      <div class="taskProg">
+        <div class="taskProgBar"><div class="taskProgFill" style="width:${pct}%"></div></div>
+        <span class="taskProgLbl">${done}/${total}</span>
+      </div>
+    </div>
+    <div class="taskList">
+      ${l.tasks.map((t,i) => `
+        <div class="titem ${S.tasks[n][i]?'done':''}" onclick="toggleTask(${n},${i})">
+          <div class="tcb">${S.tasks[n][i]?'✓':''}</div>
+          <span class="ttxt">${t}</span>
+        </div>`).join('')}
+    </div>
+    <div class="edWrap">
+      <div class="edBar">
+        <div class="dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
+        <div class="edFile">lesson${n}-practice.html</div>
+        <div class="edBtns">
+          <button class="ebtn rstBtn" id="rstBtn">Reset</button>
+          <button class="ebtn runBtn" id="runBtn">▶ Run</button>
+        </div>
+      </div>
+      <div class="edBody">
+        <div class="pane">
+          <div class="paneLbl">HTML / CSS / JS</div>
+          <textarea id="codeEd" spellcheck="false">${esc(l.starter)}</textarea>
+        </div>
+        <div class="pane">
+          <div class="paneLbl">PREVIEW</div>
+          <iframe id="previewFrame" class="preview"></iframe>
+        </div>
+      </div>
+    </div>
+    ${done===total ? `<div class="tipbox info" style="margin-top:8px">🎉 All tasks done! Head to the Quiz tab.</div>` : ''}`;
+}
+
+function buildQuiz(n, l) {
+  const score = S.qs[n];
+  const answered = Object.keys(S.qa[n]).length;
+  const total = l.quiz.length;
+  const stars = answered===total ? (score>=3?'⭐⭐⭐':score>=2?'⭐⭐':'⭐') : '—';
+  const qs = l.quiz.map((q,qi) => {
+    const chosen = S.qa[n][qi];
+    const isAnswered = chosen !== undefined;
+    const opts = q.o.map((o,oi) => {
+      let cls = 'qopt' + (isAnswered ? ' answered' : '');
+      if (isAnswered && oi===q.a) cls += ' correct';
+      if (isAnswered && oi===chosen && oi!==q.a) cls += ' wrong';
+      const ltr = ['A','B','C','D'][oi];
+      return `<div class="${cls}" onclick="answerQ(${n},${qi},${oi},${q.a})">
+        <div class="qletter">${ltr}</div>${o}</div>`;
+    }).join('');
+    let fb = '';
+    if (isAnswered) {
+      fb = chosen===q.a
+        ? `<div class="qfb correct" style="display:block">✅ Correct!</div>`
+        : `<div class="qfb wrong" style="display:block">❌ Correct answer: <strong>${['A','B','C','D'][q.a]}: ${q.o[q.a]}</strong></div>`;
+    }
+    return `<div class="qcard">
+      <div class="qnum">QUESTION ${qi+1} / ${total}</div>
+      <div class="qtxt">${q.q}</div>
+      <div class="qopts">${opts}</div>${fb}</div>`;
+  }).join('');
+
+  return `
+    <div class="scoreRow">
+      <div><div class="scoreLbl">Quiz Score</div></div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div>${stars}</div>
+        <div class="scoreVal" style="color:${l.color}">${score} / ${total}</div>
+      </div>
+    </div>
+    ${qs}
+    ${answered===total ? `<button class="btn btn-primary" onclick="completeLesson(${n})" style="margin-top:10px">
+      ${score>=3?'🎉 Complete & Continue →':'Continue →'}
+    </button>` : ''}`;
+}
+
+function buildHW(n, l) {
+  const hw = l.hw;
+  return `
+    <div class="hwCard">
+      <div class="hwTop">
+        <div class="hwTitle">📝 ${hw.title}</div>
+        <div class="hwBadge ${hw.lvl}">${hw.lvl.toUpperCase()}</div>
+      </div>
+      <div class="hwBody">
+        <p class="hwDesc">${hw.desc}</p>
+        <ul class="hwItems">${hw.items.map(i=>`<li>${i}</li>`).join('')}</ul>
+      </div>
+    </div>
+    <div class="tipbox warn">⚠️ <strong>Submission:</strong> Complete this in VSCode and save to your <code>/connectech</code> project folder. Your instructor reviews it at the start of the next session.</div>
+    <div class="tipbox info">💡 <strong>Stuck?</strong> Use the Practice editor to experiment first, then paste working code into VSCode.</div>
+    <button class="btn btn-outline" onclick="goTab('practice')" style="margin-top:4px">Open Practice Editor</button>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ACTIONS
+// ═══════════════════════════════════════════════════════════
+function runCode(n) {
+  const code = document.getElementById('codeEd').value;
+  const frame = document.getElementById('previewFrame');
+  const doc = frame.contentDocument || frame.contentWindow.document;
+  doc.open(); doc.write(code); doc.close();
+}
+
+function resetCode(n, l) {
+  document.getElementById('codeEd').value = l.starter;
+  runCode(n);
+}
+
+function toggleTask(n, i) {
+  S.tasks[n][i] = !S.tasks[n][i];
+  goTab('practice');
+}
+
+function answerQ(n, qi, chosen, correct) {
+  if (S.qa[n][qi] !== undefined) return;
+  S.qa[n][qi] = chosen;
+  if (chosen === correct) S.qs[n]++;
+  goTab('quiz');
+}
+
+function completeLesson(n) {
+  S.done.add(n);
+  const chk = document.getElementById(`chk-${n}`);
+  chk.classList.add('done'); chk.textContent = '✓';
+  updateProgress();
+  if (n < 6) setTimeout(() => goLesson(n+1), 300);
+}
+
+function updateProgress() {
+  const d = S.done.size;
+  document.getElementById('progFill').style.width = (d/6*100)+'%';
+  document.getElementById('progTxt').textContent = `${d} / 6 lessons`;
+}
+
+function esc(html) {
+  return html.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ─── INIT ────────────────────────────────────────────────
+render(1);
+</script>
+</body>
+</html>
